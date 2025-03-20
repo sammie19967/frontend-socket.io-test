@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
-import { useNavigate } from 'react-router-dom';
-import '../styles/Signup.css'; 
+import { useNavigate, Link } from 'react-router-dom';
+import '../styles/SignUp.css';
 
 const Signup = () => {
     const { login } = useAuth();
@@ -15,6 +15,7 @@ const Signup = () => {
     });
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+    const [success, setSuccess] = useState('');
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -24,42 +25,82 @@ const Signup = () => {
         e.preventDefault();
         setLoading(true);
         setError('');
-    
+        setSuccess('');
+
+        // Basic validation
+        if (!formData.username || !formData.email || !formData.password) {
+            setError('Please fill in all fields.');
+            setLoading(false);
+            return;
+        }
+
         try {
-            console.log('Sending data:', formData);
-    
             const res = await axios.post('http://localhost:5000/api/auth/signup', formData, {
                 headers: { 'Content-Type': 'application/json' },
             });
-    
-            console.log('Response from server:', res.data);
-    
-            alert('Signup successful! Please log in.'); // ✅ Show success message
-            navigate('/login'); // ✅ Redirect to login page instead of dashboard
+
+            setSuccess('Signup successful! Redirecting to login...');
+            setTimeout(() => navigate('/login'), 1500); // Redirect to login after 1.5 seconds
         } catch (err) {
-            console.error('Signup error:', err.response);
-            setError(err.response?.data?.message || 'Signup failed');
+            setError(err.response?.data?.message || 'Signup failed. Please try again.');
         } finally {
             setLoading(false);
         }
     };
-    
-    
 
     return (
         <div className="auth-container">
             <h2>Signup</h2>
-            {error && <p className="error">{error}</p>}
+            {error && <p className="error-message">{error}</p>}
+            {success && <p className="success-message">{success}</p>}
             <form onSubmit={handleSubmit}>
-                <input type="text" name="username" placeholder="Username" onChange={handleChange} required />
-                <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-                <input type="password" name="password" placeholder="Password" onChange={handleChange} required />
-                <select name="role" onChange={handleChange}>
-                    <option value="buyer">Buyer</option>
-                    <option value="seller">Seller</option>
-                </select>
-                <button type="submit" disabled={loading}>{loading ? 'Signing Up...' : 'Signup'}</button>
+                <div className="form-group">
+                    <label htmlFor="username">Username</label>
+                    <input
+                        type="text"
+                        name="username"
+                        id="username"
+                        placeholder="Enter your username"
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="email">Email</label>
+                    <input
+                        type="email"
+                        name="email"
+                        id="email"
+                        placeholder="Enter your email"
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="password">Password</label>
+                    <input
+                        type="password"
+                        name="password"
+                        id="password"
+                        placeholder="Enter your password"
+                        onChange={handleChange}
+                        required
+                    />
+                </div>
+                <div className="form-group">
+                    <label htmlFor="role">Role</label>
+                    <select name="role" id="role" onChange={handleChange}>
+                        <option value="buyer">Buyer</option>
+                        <option value="seller">Seller</option>
+                    </select>
+                </div>
+                <button type="submit" disabled={loading}>
+                    {loading ? 'Signing Up...' : 'Signup'}
+                </button>
             </form>
+            <p className="auth-switch">
+                Already have an account? <Link to="/login">Login</Link>
+            </p>
         </div>
     );
 };

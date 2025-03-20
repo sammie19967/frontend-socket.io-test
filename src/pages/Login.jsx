@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import { useNavigate, Link } from 'react-router-dom';
+import '../styles/Login.css';
 
 const Login = () => {
     const { login } = useAuth();
@@ -13,6 +14,7 @@ const Login = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [success, setSuccess] = useState('');
+    const [showPassword, setShowPassword] = useState(false); // Toggle password visibility
 
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -54,14 +56,23 @@ const Login = () => {
                 </div>
                 <div className="form-group">
                     <label htmlFor="password">Password</label>
-                    <input
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder="Enter your password"
-                        onChange={handleChange}
-                        required
-                    />
+                    <div className="password-input">
+                        <input
+                            type={showPassword ? 'text' : 'password'}
+                            name="password"
+                            id="password"
+                            placeholder="Enter your password"
+                            onChange={handleChange}
+                            required
+                        />
+                        <button
+                            type="button"
+                            className="password-toggle-button"
+                            onClick={() => setShowPassword(!showPassword)}
+                        >
+                            {showPassword ? '👁️' : '👁️‍🗨️'}
+                        </button>
+                    </div>
                 </div>
                 <button type="submit" disabled={loading}>
                     {loading ? 'Logging in...' : 'Login'}
