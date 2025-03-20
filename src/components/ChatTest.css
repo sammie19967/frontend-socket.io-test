@@ -1,0 +1,111 @@
+.chat-container {
+    display: flex;
+    width: 80%;
+    height: 500px;
+    margin: auto;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    overflow: hidden;
+    font-family: Arial, sans-serif;
+}
+
+.sidebar {
+    width: 30%;
+    background: #f4f4f4;
+    padding: 15px;
+    border-right: 1px solid #ddd;
+    overflow-y: auto;
+}
+
+.user-item {
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+    margin-bottom: 5px;
+    background: white;
+}
+
+.user-item.active {
+    background: #4CAF50;
+    color: white;
+}
+
+.chat-box {
+    width: 70%;
+    display: flex;
+    flex-direction: column;
+    background: #f9f9f9;
+}
+
+.messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.message {
+    max-width: 70%;
+    padding: 8px 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    word-wrap: break-word;
+}
+
+.sent {
+    align-self: flex-end;
+    background: #4CAF50;
+    color: white;
+}
+
+.received {
+    align-self: flex-start;
+    background: #e1e1e1;
+}
+
+.timestamp {
+    font-size: 12px;
+    margin-top: 5px;
+    display: block;
+    opacity: 0.7;
+}
+
+.input-area {
+    display: flex;
+    padding: 10px;
+    background: white;
+    border-top: 1px solid #ddd;
+}
+
+.input-area input[type="text"] {
+    flex: 1;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.input-area input[type="file"] {
+    margin-left: 10px;
+}
+
+.input-area button {
+    background: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    margin-left: 10px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.input-area button:disabled {
+    background: gray;
+    cursor: not-allowed;
+}
+
+.spinner {
+    color: red;
+    font-size: 14px;
+    margin-left: 10px;
+}
