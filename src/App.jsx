@@ -1,19 +1,22 @@
-import { useState } from 'react'
-
-import './App.css'
-import ChatTest from './components/ChatTest'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { AuthProvider } from './context/AuthContext';
+import Signup from './pages/SignUp';
+import Login from './pages/Login'
+import Dashboard from './pages/Dashboard';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        Welcome to DMS
-        <ChatTest/>
-       </div>
-    </>
-  )
+    return (
+        <AuthProvider>
+            <Router>
+                <Routes>
+                    <Route path="/signup" element={<Signup />} />
+                    <Route path="/login" element={<Login />} />
+                    <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                </Routes>
+            </Router>
+        </AuthProvider>
+    );
 }
 
-export default App
+export default App;
