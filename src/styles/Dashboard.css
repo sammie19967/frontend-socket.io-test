@@ -1,0 +1,41 @@
+/* Dashboard.css */
+
+/* General Styling */
+.dashboard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Full viewport height */
+    background: linear-gradient(135deg, #1e1e1e, #121212); /* Dark gradient background */
+    color: #ffffff; /* White text */
+    font-family: 'Inter', sans-serif; /* Modern font */
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.welcome-message {
+    font-size: 2.5rem; /* Large font size */
+    font-weight: 600; /* Semi-bold */
+    text-align: center;
+    margin: 0;
+    color: #ffffff; /* White text */
+}
+
+.welcome-message span {
+    color: #bb86fc; /* Accent color (purple) */
+    font-weight: 700; /* Bold */
+    margin-left: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .welcome-message {
+        font-size: 2rem; /* Smaller font size for mobile */
+    }
+}
+
+@media (max-width: 480px) {
+    .welcome-message {
+        font-size: 1.5rem; /* Even smaller font size for small devices */
+    }
+}
