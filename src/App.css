@@ -1,0 +1,19 @@
+/* Global Theme Variables */
+:root {
+    --sidebar-bg: #1e1e1e;
+    --sidebar-border: #333;
+    --sidebar-text: #ffffff;
+    --sidebar-hover: #333;
+    --icon-color: #bb86fc;
+    --sidebar-shadow: rgba(0, 0, 0, 0.3);
+}
+
+/* Dark Mode */
+.dark-mode {
+    --sidebar-bg: #121212;
+    --sidebar-border: #222;
+    --sidebar-text: #e0e0e0;
+    --sidebar-hover: #333;
+    --icon-color: #ffcc00;
+    --sidebar-shadow: rgba(255, 255, 255, 0.1);
+}
