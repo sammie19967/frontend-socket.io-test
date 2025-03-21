@@ -1,37 +1,28 @@
-import React, { useState } from 'react';
-import '../styles/Navbar.css'; // Import the CSS file
+import React from 'react';
+import { FaUserCircle, FaPlus } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import '../styles/Navbar.css';
 
 const Navbar = () => {
-    const [isDropdownOpen, setIsDropdownOpen] = useState(false);
-
-    const toggleDropdown = () => {
-        setIsDropdownOpen(!isDropdownOpen);
-    };
-
     return (
-        <nav className="navbar">
+        <nav className="navbar-main">
             {/* Logo */}
-            <div className="logo">MyStore</div>
+            <Link to="/" className="navbar-logo">
+                Jumanji<span>Live</span>
+            </Link>
 
-            {/* Nav Links */}
-            <div className="nav-links">
-                {/* Sell Something Button */}
-                <button className="sell-button">Sell Something</button>
+            {/* Sell Something Button */}
+            <Link to="/sell" className="navbar-sell-button">
+                <FaPlus className="navbar-sell-icon" /> Sell Something
+            </Link>
 
-                {/* Profile Dropdown */}
-                <div className="profile-dropdown" onClick={toggleDropdown}>
-                    <img
-                        src="https://via.placeholder.com/40" // Replace with your profile icon
-                        alt="Profile"
-                        className="profile-icon"
-                    />
-                    {isDropdownOpen && (
-                        <div className="dropdown-content">
-                            <a href="#">Profile</a>
-                            <a href="#">Settings</a>
-                            <a href="#">Logout</a>
-                        </div>
-                    )}
+            {/* Profile Section */}
+            <div className="navbar-profile">
+                <FaUserCircle className="navbar-profile-icon" />
+                <div className="navbar-dropdown">
+                    <Link to="/profile">Profile</Link>
+                    <Link to="/settings">Settings</Link>
+                    <Link to="/logout">Logout</Link>
                 </div>
             </div>
         </nav>

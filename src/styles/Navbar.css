@@ -1,5 +1,5 @@
 /* Navbar Container */
-.navbar {
+.navbar-main {
     width: 100%;
     height: 60px; /* Fixed height */
     background-color: #1e1e1e; /* Navbar background */
@@ -15,14 +15,22 @@
 }
 
 /* Logo */
-.logo {
+.navbar-logo {
     font-size: 1.5rem;
     font-weight: bold;
     color: #bb86fc; /* Accent color */
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.navbar-logo span {
+    color: #ffffff; /* White text for "Live" */
+    margin-left: 5px;
 }
 
 /* Sell Something Button */
-.sell-button {
+.navbar-sell-button {
     padding: 10px 20px;
     background-color: #bb86fc;
     color: #121212;
@@ -30,48 +38,131 @@
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    font-size: 1rem;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between icon and text */
 }
 
-.sell-button:hover {
+.navbar-sell-button:hover {
     background-color: #9b5fc9;
 }
 
-/* Profile Dropdown */
-.profile-dropdown {
+.navbar-sell-icon {
+    font-size: 1.2rem;
+}
+
+/* Profile Section */
+.navbar-profile {
     position: relative;
     cursor: pointer;
+    margin-right: 40px; /* Add space to the right */
 }
 
-.profile-icon {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
+.navbar-profile-icon {
+    font-size: 2rem;
+    color: #bb86fc; /* Accent color */
+    transition: transform 0.3s ease;
 }
 
-/* Dropdown Content */
-.dropdown-content {
+.navbar-profile-icon:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+}
+
+/* Dropdown */
+.navbar-dropdown {
     display: none;
     position: absolute;
     right: 0;
+    top: 50px; /* Position below the profile icon */
     background-color: #1e1e1e;
     border: 1px solid #333;
     border-radius: 5px;
     padding: 10px;
     z-index: 1001; /* Ensure dropdown is above navbar */
+    min-width: 150px; /* Minimum width for dropdown */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add shadow for better visibility */
 }
 
-.dropdown-content a {
+.navbar-dropdown a {
     color: #ffffff;
     text-decoration: none;
     display: block;
-    padding: 5px 0;
-    transition: color 0.3s ease;
+    padding: 8px 12px;
+    transition: background-color 0.3s ease;
+    font-size: 0.9rem;
+    white-space: nowrap; /* Prevent text from wrapping */
 }
 
-.dropdown-content a:hover {
+.navbar-dropdown a:hover {
+    background-color: #333; /* Highlight on hover */
     color: #bb86fc;
 }
 
-.profile-dropdown:hover .dropdown-content {
+.navbar-profile:hover .navbar-dropdown {
     display: block;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar-main {
+        padding: 0 10px;
+    }
+
+    .navbar-logo {
+        font-size: 1.2rem;
+    }
+
+    .navbar-sell-button {
+        padding: 8px 16px;
+        font-size: 0.9rem;
+    }
+
+    .navbar-sell-icon {
+        font-size: 1rem;
+    }
+
+    .navbar-profile-icon {
+        font-size: 1.8rem;
+    }
+
+    .navbar-dropdown {
+        min-width: 120px;
+        top: 45px; /* Adjust position for smaller screens */
+    }
+
+    .navbar-dropdown a {
+        padding: 6px 10px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .navbar-logo {
+        font-size: 1rem;
+    }
+
+    .navbar-sell-button {
+        padding: 6px 12px;
+        font-size: 0.8rem;
+    }
+
+    .navbar-sell-icon {
+        font-size: 0.9rem;
+    }
+
+    .navbar-profile-icon {
+        font-size: 1.5rem;
+    }
+
+    .navbar-dropdown {
+        min-width: 100px;
+        top: 40px; /* Adjust position for smaller screens */
+    }
+
+    .navbar-dropdown a {
+        padding: 5px 8px;
+        font-size: 0.75rem;
+    }
 }

@@ -72,6 +72,11 @@
 }
 
 /* Collapsed Sidebar Styles */
+.sidebar.collapsed ul li a {
+    justify-content: center; /* Center icons when collapsed */
+    padding: 10px 0; /* Adjust padding for collapsed state */
+}
+
 .sidebar.collapsed ul li a span {
     opacity: 0; /* Hide text when collapsed */
     position: absolute;
