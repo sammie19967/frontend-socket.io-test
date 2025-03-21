@@ -1,15 +1,15 @@
 /* Sidebar Container */
 .sidebar {
-    width: 250px;
-    background-color: #1e1e1e;
-    padding: 20px;
-    border-right: 1px solid #333;
-    height: 100vh; /* Full height */
+    width: 250px; /* Sidebar width */
+    background-color: #1e1e1e; /* Sidebar background */
+    border-right: 1px solid #333; /* Border to separate sidebar and content */
+    height: calc(100vh - 60px); /* Full height minus navbar height */
     position: fixed; /* Fixed position */
-    top: 0;
+    top: 60px; /* Position below navbar */
     left: 0;
     overflow-y: auto; /* Scrollable if content overflows */
-    transition: width 0.3s ease; /* Smooth transition */
+    transition: width 0.3s ease; /* Smooth transition for collapsing */
+    z-index: 999; /* Ensure sidebar is below navbar */
 }
 
 /* Collapsed Sidebar */
@@ -29,11 +29,6 @@
     align-items: center;
     justify-content: center;
     width: 100%;
-}
-
-/* Remove hover effect on toggle button */
-.collapse-button:hover {
-    color: #ffffff; /* Keep the color consistent */
 }
 
 /* Sidebar List */

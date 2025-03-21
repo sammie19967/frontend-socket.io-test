@@ -1,25 +1,24 @@
 /* Navbar Container */
 .navbar {
+    width: 100%;
+    height: 60px; /* Fixed height */
+    background-color: #1e1e1e; /* Navbar background */
+    border-bottom: 1px solid #333; /* Border to separate navbar and sidebar */
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px;
-    background-color: #1e1e1e;
-    border-bottom: 1px solid #333;
+    padding: 0 20px;
+    position: fixed; /* Fixed at the top */
+    top: 0;
+    left: 0;
+    z-index: 1000; /* Ensure navbar is above other elements */
 }
 
 /* Logo */
 .logo {
     font-size: 1.5rem;
     font-weight: bold;
-    color: #bb86fc;
-}
-
-/* Nav Links */
-.nav-links {
-    display: flex;
-    align-items: center;
-    gap: 20px;
+    color: #bb86fc; /* Accent color */
 }
 
 /* Sell Something Button */
@@ -51,14 +50,14 @@
 
 /* Dropdown Content */
 .dropdown-content {
+    display: none;
     position: absolute;
     right: 0;
     background-color: #1e1e1e;
     border: 1px solid #333;
     border-radius: 5px;
     padding: 10px;
-    z-index: 1;
-    margin-top: 10px;
+    z-index: 1001; /* Ensure dropdown is above navbar */
 }
 
 .dropdown-content a {
@@ -71,4 +70,8 @@
 
 .dropdown-content a:hover {
     color: #bb86fc;
+}
+
+.profile-dropdown:hover .dropdown-content {
+    display: block;
 }

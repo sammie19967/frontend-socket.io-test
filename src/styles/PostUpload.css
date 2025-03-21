@@ -1,5 +1,5 @@
-/* Upload Container */
-.upload-container {
+/* Post Upload Container */
+.post-upload-container {
     max-width: 600px;
     margin: 0 auto;
     padding: 20px;
@@ -10,22 +10,8 @@
     font-family: 'Inter', sans-serif;
 }
 
-.upload-container h2 {
-    font-size: 1.8rem;
-    margin-bottom: 20px;
-    color: #bb86fc; /* Accent color */
-    text-align: center;
-}
-
-/* Error Message */
-.error {
-    color: #e74c3c; /* Red for errors */
-    margin-bottom: 20px;
-    text-align: center;
-}
-
 /* Textarea */
-textarea {
+.post-upload-container textarea {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
@@ -40,12 +26,12 @@ textarea {
     transition: border-color 0.3s ease;
 }
 
-textarea:focus {
+.post-upload-container textarea:focus {
     border-color: #bb86fc;
 }
 
 /* File Input */
-input[type="file"] {
+.post-upload-container input[type="file"] {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
@@ -58,12 +44,12 @@ input[type="file"] {
     transition: border-color 0.3s ease;
 }
 
-input[type="file"]:focus {
+.post-upload-container input[type="file"]:focus {
     border-color: #bb86fc;
 }
 
 /* Preview */
-.preview {
+.post-upload-container .preview {
     width: 100%;
     max-height: 400px;
     border-radius: 5px;
@@ -72,7 +58,7 @@ input[type="file"]:focus {
 }
 
 /* Button */
-button {
+.post-upload-container button {
     width: 100%;
     padding: 10px;
     font-size: 1rem;
@@ -84,11 +70,11 @@ button {
     transition: background-color 0.3s ease;
 }
 
-button:hover {
+.post-upload-container button:hover {
     background-color: #9b5fc9;
 }
 
-button:disabled {
+.post-upload-container button:disabled {
     background-color: #555;
     cursor: not-allowed;
 }

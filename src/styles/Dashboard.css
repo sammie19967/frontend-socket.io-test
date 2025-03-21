@@ -1,41 +1,40 @@
-/* Dashboard.css */
-
-/* General Styling */
-.dashboard {
+/* Dashboard Container */
+.dashboard-container {
     display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Full viewport height */
-    background: linear-gradient(135deg, #1e1e1e, #121212); /* Dark gradient background */
+    flex-direction: column;
+    min-height: 100vh;
+    background-color: #121212; /* Dark background */
     color: #ffffff; /* White text */
-    font-family: 'Inter', sans-serif; /* Modern font */
-    padding: 20px;
-    box-sizing: border-box;
+    font-family: 'Inter', sans-serif;
 }
 
+/* Dashboard Layout */
+.dashboard-layout {
+    display: flex;
+    flex: 1; /* Take up remaining space */
+    margin-top: 60px; /* Adjust based on navbar height */
+}
+
+/* Dashboard Content */
+.dashboard-content {
+    flex: 1; /* Take up remaining space */
+    margin-left: 250px; /* Adjust based on sidebar width */
+    padding: 20px;
+    transition: margin-left 0.3s ease; /* Smooth transition for collapsing */
+}
+
+/* Adjust content margin when sidebar is collapsed */
+.sidebar.collapsed + .dashboard-content {
+    margin-left: 60px; /* Adjust based on collapsed sidebar width */
+}
+
+/* Welcome Message */
 .welcome-message {
-    font-size: 2.5rem; /* Large font size */
-    font-weight: 600; /* Semi-bold */
-    text-align: center;
-    margin: 0;
-    color: #ffffff; /* White text */
+    font-size: 2rem;
+    margin-bottom: 20px;
+    color: #bb86fc; /* Accent color */
 }
 
 .welcome-message span {
-    color: #bb86fc; /* Accent color (purple) */
-    font-weight: 700; /* Bold */
-    margin-left: 10px;
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .welcome-message {
-        font-size: 2rem; /* Smaller font size for mobile */
-    }
-}
-
-@media (max-width: 480px) {
-    .welcome-message {
-        font-size: 1.5rem; /* Even smaller font size for small devices */
-    }
+    color: #ffffff; /* White text for username */
 }
