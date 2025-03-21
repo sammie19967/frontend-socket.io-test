@@ -1,0 +1,89 @@
+/* Sidebar Container */
+.sidebar {
+    width: 250px;
+    background-color: #1e1e1e;
+    padding: 20px;
+    border-right: 1px solid #333;
+    height: 100vh; /* Full height */
+    position: fixed; /* Fixed position */
+    top: 0;
+    left: 0;
+    overflow-y: auto; /* Scrollable if content overflows */
+    transition: width 0.3s ease; /* Smooth transition */
+}
+
+/* Collapsed Sidebar */
+.sidebar.collapsed {
+    width: 60px; /* Collapsed width */
+}
+
+/* Collapse Button */
+.collapse-button {
+    background: none;
+    border: none;
+    color: #ffffff;
+    font-size: 1.2rem;
+    cursor: pointer;
+    margin-bottom: 20px;
+    transition: color 0.3s ease;
+}
+
+.collapse-button:hover {
+    color: #bb86fc;
+}
+
+/* Sidebar List */
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar ul li {
+    margin-bottom: 15px;
+}
+
+/* Sidebar Links */
+.sidebar ul li a {
+    color: #ffffff;
+    text-decoration: none;
+    font-size: 1rem;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+.sidebar ul li a:hover {
+    color: #bb86fc;
+    background-color: #333; /* Highlight on hover */
+}
+
+/* Icons */
+.sidebar ul li a svg {
+    margin-right: 10px;
+    font-size: 1.2rem;
+    transition: margin-right 0.3s ease;
+}
+
+/* Collapsed Sidebar Styles */
+.sidebar.collapsed ul li a span {
+    display: none; /* Hide text when collapsed */
+}
+
+.sidebar.collapsed ul li a svg {
+    margin-right: 0; /* Remove margin for icons when collapsed */
+}
+
+/* Hover Effect for Collapsed Sidebar */
+.sidebar.collapsed ul li a:hover span {
+    display: inline-block;
+    margin-left: 10px;
+    background-color: #1e1e1e;
+    padding: 5px 10px;
+    border-radius: 5px;
+    position: absolute;
+    left: 60px; /* Position the label next to the icon */
+    white-space: nowrap; /* Prevent text from wrapping */
+}

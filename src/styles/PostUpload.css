@@ -1,0 +1,94 @@
+/* Upload Container */
+.upload-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #1e1e1e;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    color: #ffffff;
+    font-family: 'Inter', sans-serif;
+}
+
+.upload-container h2 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #bb86fc; /* Accent color */
+    text-align: center;
+}
+
+/* Error Message */
+.error {
+    color: #e74c3c; /* Red for errors */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Textarea */
+textarea {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #121212;
+    color: #ffffff;
+    outline: none;
+    resize: vertical;
+    min-height: 100px;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+textarea:focus {
+    border-color: #bb86fc;
+}
+
+/* File Input */
+input[type="file"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #121212;
+    color: #ffffff;
+    outline: none;
+    margin-bottom: 20px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="file"]:focus {
+    border-color: #bb86fc;
+}
+
+/* Preview */
+.preview {
+    width: 100%;
+    max-height: 400px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    object-fit: cover;
+}
+
+/* Button */
+button {
+    width: 100%;
+    padding: 10px;
+    font-size: 1rem;
+    background-color: #bb86fc;
+    color: #121212;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #9b5fc9;
+}
+
+button:disabled {
+    background-color: #555;
+    cursor: not-allowed;
+}
