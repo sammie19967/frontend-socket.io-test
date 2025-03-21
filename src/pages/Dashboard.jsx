@@ -4,6 +4,7 @@ import '../styles/Dashboard.css';
 import PostUpload from '../components/postUpload';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
+import PostList from '../components/PostList';
 
 const Dashboard = () => {
     const { user } = useAuth(); // Get user from AuthContext
@@ -17,7 +18,7 @@ const Dashboard = () => {
                     <h2 className="welcome-message">
                         Hello, <span>{user?.username || 'Guest'}</span> welcome to Jumanji!
                     </h2>
-                    
+                    <PostList/>
                 </div>
             </div>
         </div>

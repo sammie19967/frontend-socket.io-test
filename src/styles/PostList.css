@@ -1,0 +1,114 @@
+/* Post List Container */
+.post-list-container {
+    max-width: 800px; /* Adjust as needed */
+    margin: 0 auto;
+    padding: 1rem;
+}
+
+/* Post Card */
+.post-card {
+    background-color: var(--primary-bg); /* Dark background */
+    color: var(--text-color); /* White text */
+    border-radius: 8px;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+    padding: 1rem;
+    border: solid 1px red;
+}
+
+/* User Info */
+.post-user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1rem;
+}
+
+.post-user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.post-user-info p {
+    margin: 0;
+}
+
+.post-user-info .user-name {
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.post-user-info .post-time {
+    font-size: 0.8rem;
+    color: var(--text-secondary); /* Light gray for secondary text */
+}
+
+/* Post Text */
+.post-text {
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    line-height: 1.5;
+}
+
+/* Post Media */
+.post-media img,
+.post-media video {
+    width: 100%;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+}
+
+/* Post Actions */
+.post-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid var(--border-color); /* Border for separation */
+    padding-top: 0.75rem;
+}
+
+.post-actions button {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    color: var(--text-secondary); /* Light gray for icons */
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.post-actions button:hover {
+    color: var(--accent-color); /* Accent color on hover */
+}
+
+.post-actions button.like:hover {
+    color: #ff4d4d; /* Red for like button */
+}
+
+.post-actions button.comment:hover {
+    color: #4da6ff; /* Blue for comment button */
+}
+
+/* Loading and Error Messages */
+.loading-message,
+.error-message,
+.no-posts-message {
+    text-align: center;
+    padding: 2rem;
+    font-size: 1rem;
+}
+
+.loading-message {
+    color: var(--text-secondary); /* Light gray for loading text */
+}
+
+.error-message {
+    color: #ff4d4d; /* Red for error text */
+}
+
+.no-posts-message {
+    color: var(--text-secondary); /* Light gray for no posts text */
+}
