@@ -8,7 +8,7 @@ export default function UploadTest() {
     const [error, setError] = useState("");
 
     const handleFileChange = (event) => {
-        setFiles(event.target.files);
+        setFiles([...event.target.files]); // Convert FileList to Array
         setError(""); // Reset error message
     };
 
@@ -30,7 +30,7 @@ export default function UploadTest() {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 
-            setUploadedUrls(response.data.fileUrls);
+            setUploadedUrls(response.data.fileUrls || []);
         } catch (err) {
             console.error("Upload Error:", err.response?.data?.message || err.message);
             setError(err.response?.data?.message || "Upload failed. Try again.");
@@ -40,32 +40,33 @@ export default function UploadTest() {
     };
 
     return (
-        <div className="p-4 max-w-lg mx-auto">
-            <h2 className="text-xl font-bold mb-4">File Upload Test</h2>
+        <div className="upload-container">
+            <h2>File Upload Test</h2>
 
-            <input type="file" multiple onChange={handleFileChange} className="mb-4 border p-2 w-full" />
-            {error && <p className="text-red-500">{error}</p>}
+            <input type="file" multiple onChange={handleFileChange} className="file-input" />
 
-            <button 
-                onClick={handleUpload} 
-                className="bg-blue-500 text-white px-4 py-2 rounded" 
-                disabled={loading}
-            >
-                {loading ? "Uploading..." : "Upload"}
+            {error && <p className="error">{error}</p>}
+
+            <button onClick={handleUpload} className="upload-btn" disabled={loading}>
+                {loading ? "Uploading..." : "Upload Files"}
             </button>
 
-            <h3 className="mt-4 text-lg font-semibold">Uploaded Files:</h3>
-            <div className="mt-2">
-                {uploadedUrls.map((url, index) => (
-                    <div key={index} className="mb-2">
-                        {url.endsWith(".mp4") ? (
-                            <video src={url} controls width="200" className="border" />
-                        ) : (
-                            <img src={url} alt={`Uploaded ${index}`} width="200" className="border" />
-                        )}
+            {uploadedUrls.length > 0 && (
+                <div className="uploaded-files">
+                    <h3>Uploaded Files:</h3>
+                    <div className="file-grid">
+                        {uploadedUrls.map((url, index) => (
+                            <div key={index} className="file-preview">
+                                {url.endsWith(".mp4") ? (
+                                    <video src={url} controls className="file-video" />
+                                ) : (
+                                    <img src={url} alt={`Uploaded ${index}`} className="file-image" />
+                                )}
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                </div>
+            )}
         </div>
     );
 }
