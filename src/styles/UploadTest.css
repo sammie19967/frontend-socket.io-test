@@ -1,0 +1,238 @@
+/* Upload Container */
+.upload-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #1e1e1e; /* Dark background */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    color: #ffffff; /* White text */
+    font-family: 'Inter', sans-serif;
+}
+
+.upload-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #bb86fc; /* Accent color */
+    font-size: 1.75rem;
+}
+
+/* File Input */
+.file-input {
+    display: block;
+    width: 96%;
+    margin: 20px 0;
+    padding: 10px;
+    background-color: #333; /* Darker background */
+    border: 2px dashed #bb86fc; /* Accent color border */
+    border-radius: 5px;
+    color: #ffffff; /* White text */
+    font-size: 1rem;
+    cursor: pointer;
+    transition: border-color 0.3s ease, background-color 0.3s ease;
+}
+
+.file-input:hover {
+    border-color: #9b5fc9; /* Darker accent color on hover */
+    background-color: #2c2c2c; /* Slightly lighter background */
+}
+
+.file-input:focus {
+    outline: none;
+    border-color: #bb86fc; /* Accent color on focus */
+}
+
+/* Error Message */
+.error {
+    color: #ff6b6b; /* Red for errors */
+    text-align: center;
+    margin: 10px 0;
+    font-size: 0.9rem;
+}
+
+/* Upload Button */
+.upload-btn {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #bb86fc; /* Accent color */
+    color: #121212; /* Dark text */
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-btn:hover {
+    background-color: #9b5fc9; /* Darker accent color on hover */
+}
+
+.upload-btn:disabled {
+    background-color: #555; /* Disabled state */
+    cursor: not-allowed;
+}
+
+/* Uploaded Files Section */
+.uploaded-files {
+    margin-top: 20px;
+}
+
+.uploaded-files h3 {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #bb86fc; /* Accent color */
+}
+
+.file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Responsive grid */
+    gap: 15px; /* Space between items */
+}
+
+/* File Preview Section */
+.file-preview-section {
+    margin: 20px 0;
+}
+
+.file-preview-section h3 {
+    font-size: 1.25rem;
+    margin-bottom: 10px;
+    color: #bb86fc; /* Accent color */
+}
+
+.file-preview {
+    position: relative;
+    background-color: #333; /* Darker background */
+    border-radius: 5px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.file-preview:hover {
+    transform: translateY(-5px); /* Slight lift on hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhanced shadow on hover */
+}
+
+.file-image,
+.file-video {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 5px;
+}
+
+.file-video {
+    background-color: #000; /* Black background for videos */
+}
+
+.file-placeholder {
+    padding: 10px;
+    text-align: center;
+    color: #b0b0b0; /* Light gray for text */
+}
+
+.file-placeholder p {
+    margin: 5px 0;
+}
+
+/* Remove Button */
+.remove-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: #ff6b6b; /* Red for remove button */
+    color: #ffffff; /* White text */
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.remove-btn:hover {
+    background-color: #ff4c4c; /* Darker red on hover */
+}
+/* Modal Overlay */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000; /* Ensure it's above other content */
+}
+
+/* Modal */
+.modal {
+    background-color: #1e1e1e; /* Dark background */
+    border-radius: 10px;
+    padding: 20px;
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Subtle shadow */
+}
+
+.modal h3 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #bb86fc; /* Accent color */
+}
+
+.modal p {
+    font-size: 1rem;
+    color: #ffffff; /* White text */
+    margin-bottom: 20px;
+}
+
+/* Modal Close Button */
+.modal-close-btn {
+    padding: 10px 20px;
+    background-color: #bb86fc; /* Accent color */
+    color: #121212; /* Dark text */
+    border: none;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.modal-close-btn:hover {
+    background-color: #9b5fc9; /* Darker accent color on hover */
+}
+/* Responsive Design */
+@media (max-width: 768px) {
+    .upload-container {
+        padding: 15px;
+    }
+
+    .upload-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .file-grid {
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); /* Smaller grid items */
+    }
+}
+
+@media (max-width: 480px) {
+    .upload-container h2 {
+        font-size: 1.25rem;
+    }
+
+    .upload-btn {
+        font-size: 0.9rem;
+    }
+
+    .uploaded-files h3 {
+        font-size: 1.25rem;
+    }
+}

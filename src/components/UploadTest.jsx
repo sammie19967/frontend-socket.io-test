@@ -1,15 +1,24 @@
 import { useState } from "react";
 import axios from "axios";
+import "../styles/UploadTest.css";
 
 export default function UploadTest() {
     const [files, setFiles] = useState([]);
     const [uploadedUrls, setUploadedUrls] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
+    const [showFailureModal, setShowFailureModal] = useState(false);
 
     const handleFileChange = (event) => {
-        setFiles([...event.target.files]); // Convert FileList to Array
+        const selectedFiles = Array.from(event.target.files); // Convert FileList to Array
+        setFiles(selectedFiles);
         setError(""); // Reset error message
+    };
+
+    const handleRemoveFile = (index) => {
+        const updatedFiles = files.filter((_, i) => i !== index); // Remove file at index
+        setFiles(updatedFiles);
     };
 
     const handleUpload = async () => {
@@ -31,12 +40,20 @@ export default function UploadTest() {
             });
 
             setUploadedUrls(response.data.fileUrls || []);
+            setFiles([]); // Clear selected files after upload
+            setShowSuccessModal(true); // Show success modal
         } catch (err) {
             console.error("Upload Error:", err.response?.data?.message || err.message);
             setError(err.response?.data?.message || "Upload failed. Try again.");
+            setShowFailureModal(true); // Show failure modal
         } finally {
             setLoading(false);
         }
+    };
+
+    const closeModal = () => {
+        setShowSuccessModal(false);
+        setShowFailureModal(false);
     };
 
     return (
@@ -47,10 +64,37 @@ export default function UploadTest() {
 
             {error && <p className="error">{error}</p>}
 
-            <button onClick={handleUpload} className="upload-btn" disabled={loading}>
+            {/* File Preview Section */}
+            {files.length > 0 && (
+                <div className="file-preview-section">
+                    <h3>Selected Files:</h3>
+                    <div className="file-grid">
+                        {files.map((file, index) => (
+                            <div key={index} className="file-preview">
+                                {file.type.startsWith("image/") ? (
+                                    <img src={URL.createObjectURL(file)} alt={`Preview ${index}`} className="file-image" />
+                                ) : file.type.startsWith("video/") ? (
+                                    <video src={URL.createObjectURL(file)} controls className="file-video" />
+                                ) : (
+                                    <div className="file-placeholder">
+                                        <p>{file.name}</p>
+                                        <p>(Unsupported file type)</p>
+                                    </div>
+                                )}
+                                <button onClick={() => handleRemoveFile(index)} className="remove-btn">
+                                    Remove
+                                </button>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            )}
+
+            <button onClick={handleUpload} className="upload-btn" disabled={loading || files.length === 0}>
                 {loading ? "Uploading..." : "Upload Files"}
             </button>
 
+            {/* Uploaded Files Section */}
             {uploadedUrls.length > 0 && (
                 <div className="uploaded-files">
                     <h3>Uploaded Files:</h3>
@@ -64,6 +108,32 @@ export default function UploadTest() {
                                 )}
                             </div>
                         ))}
+                    </div>
+                </div>
+            )}
+
+            {/* Success Modal */}
+            {showSuccessModal && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <h3>Success!</h3>
+                        <p>Your files have been uploaded successfully.</p>
+                        <button onClick={closeModal} className="modal-close-btn">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
+
+            {/* Failure Modal */}
+            {showFailureModal && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <h3>Upload Failed</h3>
+                        <p>{error || "An error occurred during the upload. Please try again."}</p>
+                        <button onClick={closeModal} className="modal-close-btn">
+                            Close
+                        </button>
                     </div>
                 </div>
             )}
