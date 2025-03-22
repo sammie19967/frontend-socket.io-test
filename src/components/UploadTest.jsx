@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import "../styles/UploadTest.css";
 
@@ -9,6 +9,20 @@ export default function UploadTest() {
     const [error, setError] = useState("");
     const [showSuccessModal, setShowSuccessModal] = useState(false);
     const [showFailureModal, setShowFailureModal] = useState(false);
+
+    // Fetch uploaded files on component mount
+    useEffect(() => {
+        fetchUploadedFiles();
+    }, []);
+
+    const fetchUploadedFiles = async () => {
+        try {
+            const response = await axios.get("http://localhost:5000/api/uploads");
+            setUploadedUrls(response.data.fileUrls);
+        } catch (err) {
+            console.error("Error fetching uploads:", err.message);
+        }
+    };
 
     const handleFileChange = (event) => {
         const selectedFiles = Array.from(event.target.files); // Convert FileList to Array
@@ -39,7 +53,7 @@ export default function UploadTest() {
                 headers: { "Content-Type": "multipart/form-data" },
             });
 
-            setUploadedUrls(response.data.fileUrls || []);
+            setUploadedUrls([...uploadedUrls, ...response.data.fileUrls]);
             setFiles([]); // Clear selected files after upload
             setShowSuccessModal(true); // Show success modal
         } catch (err) {
