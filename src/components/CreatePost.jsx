@@ -8,14 +8,34 @@ export default function CreatePost({ onPostCreated }) {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
 
+    const MAX_FILE_SIZE_MB = 10; // 10MB max file size
+    const MAX_FILES = 10; // Maximum number of attachments
+
     const handleFileChange = (event) => {
-        const selectedFiles = Array.from(event.target.files); // Convert FileList to an array
-        setFiles([...files, ...selectedFiles]); // Append new files to existing ones
-        setError(""); // Reset error when a file is selected
+        const selectedFiles = Array.from(event.target.files);
+        let newFiles = [...files];
+        let validationError = "";
+
+        selectedFiles.forEach((file) => {
+            if (file.size > MAX_FILE_SIZE_MB * 1024 * 1024) {
+                validationError = `File "${file.name}" exceeds the 10MB size limit and will not be uploaded.`;
+            } else if (newFiles.length < MAX_FILES) {
+                newFiles.push(file);
+            } else {
+                validationError = `You can only upload a maximum of ${MAX_FILES} attachments.`;
+            }
+        });
+
+        if (validationError) {
+            setError(validationError);
+        } else {
+            setFiles(newFiles);
+            setError(""); // Reset error if all conditions are met
+        }
     };
 
     const handleRemoveFile = (index) => {
-        const updatedFiles = files.filter((_, i) => i !== index); // Remove the file at the specified index
+        const updatedFiles = files.filter((_, i) => i !== index);
         setFiles(updatedFiles);
     };
 
@@ -29,12 +49,11 @@ export default function CreatePost({ onPostCreated }) {
         const formData = new FormData();
         formData.append("caption", caption.trim());
 
-        // Append all files to the form data
         files.forEach((file) => formData.append("files", file));
 
         try {
             setLoading(true);
-            setError(""); // Reset error before request
+            setError("");
 
             const response = await axios.post("http://localhost:5000/api/posts", formData, {
                 headers: {
@@ -43,16 +62,13 @@ export default function CreatePost({ onPostCreated }) {
                 withCredentials: true,
             });
 
-            // Call `onPostCreated` only if it's a valid function
             if (typeof onPostCreated === "function") {
                 onPostCreated(response.data);
             }
 
-            // Reset form fields after successful upload
             setCaption("");
             setFiles([]);
-            document.getElementById("fileInput").value = ""; // Reset file input
-
+            document.getElementById("fileInput").value = "";
         } catch (err) {
             console.error("Upload Error:", err);
             setError(err.response?.data?.message || "Failed to create post.");
@@ -76,7 +92,7 @@ export default function CreatePost({ onPostCreated }) {
                 {/* File Input */}
                 <div className="file-input-container">
                     <label htmlFor="fileInput" className="file-input-label">
-                        Upload Photos/Video
+                        Upload Photos/Video (Max {MAX_FILES} files, 10MB each)
                     </label>
                     <input
                         id="fileInput"
