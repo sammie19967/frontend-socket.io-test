@@ -62,9 +62,9 @@ export default function CreatePost({ onPostCreated }) {
     };
 
     return (
-        <div className="create-post-container">
+        <div className="upload-container">
             <h2>Create a Post</h2>
-            {error && <p className="error-message">{error}</p>}
+            {error && <p className="error">{error}</p>}
             <form onSubmit={handleSubmit} className="post-form">
                 <textarea
                     value={caption}
@@ -88,12 +88,16 @@ export default function CreatePost({ onPostCreated }) {
                     />
                 </div>
 
-                {/* Image Preview */}
+                {/* File Preview Section */}
                 <div className="file-preview-container">
                     {files.map((file, index) => (
                         <div key={index} className="file-preview">
                             {file.type.startsWith("image") ? (
-                                <img src={URL.createObjectURL(file)} alt={`preview-${index}`} className="preview-image" />
+                                <img
+                                    src={URL.createObjectURL(file)}
+                                    alt={`preview-${index}`}
+                                    className="preview-image"
+                                />
                             ) : (
                                 <video controls className="preview-video">
                                     <source src={URL.createObjectURL(file)} type={file.type} />
@@ -103,7 +107,7 @@ export default function CreatePost({ onPostCreated }) {
                             <button
                                 type="button"
                                 onClick={() => handleRemoveFile(index)}
-                                className="remove-file-button"
+                                className="remove-btn"
                             >
                                 ×
                             </button>
@@ -115,7 +119,7 @@ export default function CreatePost({ onPostCreated }) {
                 <button
                     type="submit"
                     disabled={loading || (!caption.trim() && files.length === 0)}
-                    className="submit-button"
+                    className="upload-btn"
                 >
                     {loading ? "Posting..." : "Post"}
                 </button>
