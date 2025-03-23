@@ -76,7 +76,10 @@ const PostUpload = () => {
                 onChange={(e) => setCaption(e.target.value)}
             />
 
-            <input type="file" accept="image/*,video/mp4" onChange={handleFileChange} />
+            <label className="file-input-label">
+                Upload Media
+                <input type="file" accept="image/*,video/mp4" onChange={handleFileChange} />
+            </label>
 
             {preview && (
                 media.type.startsWith('image/') ? (
