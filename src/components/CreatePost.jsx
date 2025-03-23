@@ -7,6 +7,7 @@ export default function CreatePost({ onPostCreated }) {
     const [files, setFiles] = useState([]);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+    const [showSuccessModal, setShowSuccessModal] = useState(false);
 
     const MAX_FILE_SIZE_MB = 10; // 10MB max file size
     const MAX_FILES = 10; // Maximum number of attachments
@@ -69,12 +70,17 @@ export default function CreatePost({ onPostCreated }) {
             setCaption("");
             setFiles([]);
             document.getElementById("fileInput").value = "";
+            setShowSuccessModal(true); // Show success modal
         } catch (err) {
             console.error("Upload Error:", err);
             setError(err.response?.data?.message || "Failed to create post.");
         } finally {
             setLoading(false);
         }
+    };
+
+    const closeSuccessModal = () => {
+        setShowSuccessModal(false);
     };
 
     return (
@@ -145,6 +151,19 @@ export default function CreatePost({ onPostCreated }) {
                     )}
                 </button>
             </form>
+
+            {/* Success Modal */}
+            {showSuccessModal && (
+                <div className="modal-overlay">
+                    <div className="modal">
+                        <h3>🎉 Post Created Successfully!</h3>
+                        <p>Your post has been shared with the community.</p>
+                        <button onClick={closeSuccessModal} className="modal-close-btn">
+                            Close
+                        </button>
+                    </div>
+                </div>
+            )}
         </div>
     );
 }

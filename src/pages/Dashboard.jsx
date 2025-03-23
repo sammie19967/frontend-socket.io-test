@@ -1,10 +1,11 @@
-import React from 'react';
-import { useAuth } from '../context/AuthContext';
-import '../styles/Dashboard.css';
-import PostUpload from '../components/postUpload';
-import Navbar from '../components/Navbar';
-import Sidebar from '../components/Sidebar';
-import UploadTest from '../components/UploadTest';
+import React from "react";
+import { useAuth } from "../context/AuthContext";
+import "../styles/Dashboard.css";
+
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+
+import PostFeed from "../components/PostFeed";
 
 const Dashboard = () => {
     const { user } = useAuth(); // Get user from AuthContext
@@ -16,10 +17,9 @@ const Dashboard = () => {
                 <Sidebar /> {/* Sidebar positioned below the navbar */}
                 <div className="dashboard-content">
                     <h2 className="welcome-message">
-                        Hello, <span>{user?.username || 'Guest'}</span> welcome to Jumanji!
+                        Hello, <span>{user?.username || "Guest"}</span> welcome to Jumanji!
                     </h2>
-                    
-                    
+                    <PostFeed />
                 </div>
             </div>
         </div>

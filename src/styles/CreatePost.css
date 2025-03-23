@@ -12,9 +12,9 @@
     --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
 }
 
-/* Create Post Container */
-.create-post-container {
-    max-width: 600px;
+/* Post Feed Container */
+.post-feed-container {
+    max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
     background: var(--secondary-bg);
@@ -26,7 +26,7 @@
     font-family: 'Inter', sans-serif;
 }
 
-.create-post-container h2 {
+.post-feed-container h2 {
     text-align: center;
     margin-bottom: 1.5rem;
     color: var(--accent-color);
@@ -34,168 +34,180 @@
     font-weight: 600;
 }
 
-/* Error Message */
-.error-message {
+/* Loading and Error Messages */
+.loading,
+.error {
     text-align: center;
-    margin-bottom: 1rem;
+    font-size: 1.1rem;
+    margin: 2rem 0;
+}
+
+.error {
     color: var(--error-color);
-    font-size: 0.9rem;
 }
 
-/* Post Form */
-.post-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-}
-
-/* Caption Input */
-.caption-input {
-    
-    height: 120px;
-    padding: 1rem;
+/* Post Card */
+.post-card {
     background: var(--glass-bg);
-    border: 1px solid var(--glass-border);
     border-radius: 10px;
-    color: var(--text-color);
-    font-size: 1rem;
-    resize: none;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-}
-
-.caption-input:focus {
-    border-color: var(--accent-color);
-    outline: none;
-    box-shadow: 0 0 0 3px rgba(187, 134, 252, 0.2);
-}
-
-/* File Input Container */
-.file-input-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
     padding: 1.5rem;
-    background: var(--glass-bg);
-    border: 2px dashed var(--glass-border);
-    border-radius: 10px;
-    cursor: pointer;
-    transition: border-color 0.3s ease, background 0.3s ease;
+    margin-bottom: 1.5rem;
+    box-shadow: var(--glass-shadow);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
-.file-input-container:hover {
-    border-color: var(--accent-color);
-    background: rgba(187, 134, 252, 0.1);
+.post-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
 }
 
-.file-input-label {
+/* User Info */
+.user-info {
     display: flex;
     align-items: center;
-    gap: 0.5rem;
-    font-size: 1rem;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.profile-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    text-decoration: none;
     color: var(--text-color);
-    cursor: pointer;
+    transition: opacity 0.3s ease;
 }
 
-.upload-icon {
-    font-size: 1.5rem;
+.profile-link:hover {
+    opacity: 0.8;
 }
 
-.upload-text {
-    font-weight: 500;
+.profile-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--accent-color);
 }
 
-.file-input {
-    display: none;
+.username {
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
-/* File Preview Container */
-.file-preview-container {
+/* Timestamp */
+.timestamp {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 1rem;
+}
+
+/* Caption */
+.caption {
+    font-size: 1rem;
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+}
+
+/* Media Container */
+.media-container {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 1rem;
+    margin-bottom: 1.5rem;
 }
 
-.file-preview {
-    position: relative;
-    width: 100px;
-    height: 100px;
+.media-item {
     border-radius: 10px;
     overflow: hidden;
     box-shadow: var(--glass-shadow);
     transition: transform 0.3s ease;
 }
 
-.file-preview:hover {
+.media-item:hover {
     transform: scale(1.05);
 }
 
-.preview-image,
-.preview-video {
+.media-item img,
+.media-item video {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
+    height: auto;
+    display: block;
+    border-radius: 10px;
 }
 
-/* Remove Button */
-.remove-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background: var(--error-color);
-    color: var(--text-color);
-    border: none;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
+/* Action Buttons */
+.actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+.actions button {
     display: flex;
     align-items: center;
-    justify-content: center;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.remove-btn:hover {
-    background: #ff4c4c;
-}
-
-/* Submit Button */
-.submit-button {
-    padding: 1rem;
-    background: var(--accent-color);
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    background: var(--glass-bg);
+    border: 1px solid var(--glass-border);
+    border-radius: 8px;
     color: var(--text-color);
-    border: none;
-    border-radius: 10px;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 0.9rem;
+    font-weight: 500;
     cursor: pointer;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease, transform 0.3s ease;
 }
 
-.submit-button:hover {
+.actions button:hover {
+    background: var(--accent-color);
+    color: var(--primary-bg);
+    transform: translateY(-2px);
+}
+
+.actions button.liked {
+    background: var(--accent-color);
+    color: var(--primary-bg);
+}
+
+.actions button.liked:hover {
     background: var(--accent-hover);
 }
 
-.submit-button:disabled {
-    background: var(--disabled-color);
-    cursor: not-allowed;
-}
-
-/* Loading Spinner */
-.loading-spinner {
-    border: 3px solid rgba(255, 255, 255, 0.3);
-    border-top: 3px solid var(--text-color);
-    border-radius: 50%;
-    width: 20px;
-    height: 20px;
-    animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-    0% {
-        transform: rotate(0deg);
+/* Responsive Design */
+@media (max-width: 768px) {
+    .post-feed-container {
+        padding: 1rem;
     }
-    100% {
-        transform: rotate(360deg);
+
+    .post-card {
+        padding: 1rem;
+    }
+
+    .actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .actions button {
+        width: 100%;
+        justify-content: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .post-feed-container h2 {
+        font-size: 1.5rem;
+    }
+
+    .username {
+        font-size: 1rem;
+    }
+
+    .caption {
+        font-size: 0.9rem;
+    }
+
+    .timestamp {
+        font-size: 0.8rem;
     }
 }
