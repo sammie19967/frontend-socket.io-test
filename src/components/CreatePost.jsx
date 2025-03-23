@@ -78,21 +78,22 @@ export default function CreatePost({ onPostCreated }) {
     };
 
     return (
-        <div className="upload-container">
+        <div className="create-post-container">
             <h2>Create a Post</h2>
-            {error && <p className="error">{error}</p>}
+            {error && <p className="error-message">{error}</p>}
             <form onSubmit={handleSubmit} className="post-form">
                 <textarea
                     value={caption}
                     onChange={(e) => setCaption(e.target.value)}
-                    placeholder="Write a caption..."
+                    placeholder="What's on your mind?"
                     className="caption-input"
                 ></textarea>
 
                 {/* File Input */}
                 <div className="file-input-container">
                     <label htmlFor="fileInput" className="file-input-label">
-                        Upload Photos/Video (Max {MAX_FILES} files, 10MB each)
+                        <span className="upload-icon">📷</span>
+                        <span className="upload-text">Upload Photos/Video (Max {MAX_FILES} files, 10MB each)</span>
                     </label>
                     <input
                         id="fileInput"
@@ -135,9 +136,13 @@ export default function CreatePost({ onPostCreated }) {
                 <button
                     type="submit"
                     disabled={loading || (!caption.trim() && files.length === 0)}
-                    className="upload-btn"
+                    className="submit-button"
                 >
-                    {loading ? "Posting..." : "Post"}
+                    {loading ? (
+                        <span className="loading-spinner"></span>
+                    ) : (
+                        "Post"
+                    )}
                 </button>
             </form>
         </div>

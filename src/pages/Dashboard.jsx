@@ -18,7 +18,7 @@ const Dashboard = () => {
                     <h2 className="welcome-message">
                         Hello, <span>{user?.username || 'Guest'}</span> welcome to Jumanji!
                     </h2>
-                    <UploadTest/>
+                    
                     
                 </div>
             </div>
