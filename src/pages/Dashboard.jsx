@@ -4,7 +4,6 @@ import '../styles/Dashboard.css';
 import PostUpload from '../components/postUpload';
 import Navbar from '../components/Navbar';
 import Sidebar from '../components/Sidebar';
-import PostList from '../components/PostList';
 import UploadTest from '../components/UploadTest';
 
 const Dashboard = () => {
@@ -20,7 +19,7 @@ const Dashboard = () => {
                         Hello, <span>{user?.username || 'Guest'}</span> welcome to Jumanji!
                     </h2>
                     <UploadTest/>
-                    <PostList/>
+                    
                 </div>
             </div>
         </div>

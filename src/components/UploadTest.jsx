@@ -40,30 +40,35 @@ export default function UploadTest() {
             setError("Please select files to upload.");
             return;
         }
-
+    
         const formData = new FormData();
         for (let file of files) {
-            formData.append("files", file);
+            formData.append("media", file); // ✅ Ensure "media" matches backend expectation
         }
-
+    
         try {
             setLoading(true);
             setError("");
-            const response = await axios.post("http://localhost:5000/api/upload", formData, {
+            console.log("Uploading files:", files); // 🔍 Debugging log
+    
+            const response = await axios.post("http://localhost:5000/api/posts", formData, {
                 headers: { "Content-Type": "multipart/form-data" },
             });
-
+    
+            console.log("Upload Response:", response.data); // 🔍 Debugging log
+    
             setUploadedUrls([...uploadedUrls, ...response.data.fileUrls]);
-            setFiles([]); // Clear selected files after upload
-            setShowSuccessModal(true); // Show success modal
+            setFiles([]); // ✅ Clear selected files after successful upload
+            setShowSuccessModal(true);
         } catch (err) {
             console.error("Upload Error:", err.response?.data?.message || err.message);
             setError(err.response?.data?.message || "Upload failed. Try again.");
-            setShowFailureModal(true); // Show failure modal
+            setShowFailureModal(true);
         } finally {
             setLoading(false);
         }
     };
+    
 
     const closeModal = () => {
         setShowSuccessModal(false);
