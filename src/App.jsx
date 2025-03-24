@@ -5,6 +5,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import Sell from './pages/Sell';
+import Profile from './pages/Profile';
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                     <Route path="/login" element={<Login />} />
                     <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                     <Route path="/sell" element={<Sell/>}/>
+                    <Route path="/profile:id" element={<Profile/>}/>
                 </Routes>
             </Router>
         </AuthProvider>

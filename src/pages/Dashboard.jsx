@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../context/AuthContext";
 import "../styles/Dashboard.css";
-
+import ChatTest from "../components/ChatTest";
 import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 
@@ -19,7 +19,7 @@ const Dashboard = () => {
                     <h2 className="welcome-message">
                         Hello, <span>{user?.username || "Guest"}</span> welcome to Jumanji!
                     </h2>
-                    <PostFeed />
+                    <ChatTest/>
                 </div>
             </div>
         </div>
