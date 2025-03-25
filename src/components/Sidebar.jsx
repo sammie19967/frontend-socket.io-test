@@ -22,7 +22,7 @@ const Sidebar = () => {
             {/* Navigation Links */}
             <ul>
                 <li><a href="#"><FaHome /><span>Home</span></a></li>
-                <li><a href="#"><FaBroadcastTower /><span>Live Now</span></a></li>
+                <li><a href="/live"><FaBroadcastTower /><span>Live Now</span></a></li>
                 <li><a href="#"><FaStar /><span>Featured Products</span></a></li>
                 <li><a href="#"><FaSearch /><span>Search</span></a></li>
                 <li><a href="#"><FaFilter /><span>Filter</span></a></li>

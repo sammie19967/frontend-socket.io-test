@@ -6,6 +6,7 @@ import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import Sell from './pages/Sell';
 import Profile from './pages/Profile';
+import LiveStream from './pages/Live';
 
 function App() {
     return (
@@ -17,6 +18,8 @@ function App() {
                     <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                     <Route path="/sell" element={<Sell/>}/>
                     <Route path="/profile:id" element={<Profile/>}/>
+                    <Route path='/live' element={<LiveStream/>}/>
+
                 </Routes>
             </Router>
         </AuthProvider>
