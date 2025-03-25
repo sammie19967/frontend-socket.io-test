@@ -1,81 +1,37 @@
-import { useState, useEffect, useRef } from 'react';
-import { useAuth } from '../context/authContext';
-import io from 'socket.io-client';
+import { createContext, useContext, useState, useEffect } from 'react';
 
-const LiveStream = () => {
-    const { user, token } = useAuth();
-    const [stream, setStream] = useState(null);
-    const [messages, setMessages] = useState([]);
-    const [message, setMessage] = useState('');
-    const videoRef = useRef(null);
-    const socketRef = useRef(null);
+const AuthContext = createContext();
 
-    useEffect(() => {
-        if (!user || !token) {
-            console.log('User not authenticated');
-            return;
-        }
+export const AuthProvider = ({ children }) => {
+    const [user, setUser] = useState(() => {
+        // Get stored user from localStorage if it exists
+        const savedUser = localStorage.getItem('user');
+        return savedUser ? JSON.parse(savedUser) : null;
+    });
 
-        socketRef.current = io('http://localhost:5000', {
-            auth: { token }
-        });
+    const [token, setToken] = useState(() => localStorage.getItem('token') || '');
 
-        navigator.mediaDevices.getUserMedia({ video: true, audio: true })
-            .then((stream) => {
-                setStream(stream);
-                if (videoRef.current) {
-                    videoRef.current.srcObject = stream;
-                }
-                socketRef.current.emit('startStream', { userId: user.id });
-            })
-            .catch((err) => console.error('Error accessing media devices:', err));
+    // Function to log in user and save to localStorage
+    const login = (userData, userToken) => {
+        setUser(userData);
+        setToken(userToken);
+        localStorage.setItem('user', JSON.stringify(userData));
+        localStorage.setItem('token', userToken);
+    };
 
-        socketRef.current.on('newComment', (newMessage) => {
-            setMessages((prevMessages) => [...prevMessages, newMessage]);
-        });
-
-        return () => {
-            if (socketRef.current) {
-                socketRef.current.disconnect();
-            }
-            if (stream) {
-                stream.getTracks().forEach(track => track.stop());
-            }
-        };
-    }, [user, token]);
-
-    const sendMessage = () => {
-        if (message.trim() && socketRef.current) {
-            const newMessage = { userId: user.id, text: message };
-            socketRef.current.emit('sendComment', newMessage);
-            setMessage('');
-        }
+    // Function to log out user and remove from localStorage
+    const logout = () => {
+        setUser(null);
+        setToken('');
+        localStorage.removeItem('user');
+        localStorage.removeItem('token');
     };
 
     return (
-        <div>
-            <h1>Live Stream</h1>
-            {stream ? (
-                <video ref={videoRef} autoPlay playsInline muted />
-            ) : (
-                <p>Loading stream...</p>
-            )}
-            <div>
-                <input 
-                    type="text" 
-                    value={message} 
-                    onChange={(e) => setMessage(e.target.value)} 
-                    placeholder="Type a comment..."
-                />
-                <button onClick={sendMessage}>Send</button>
-            </div>
-            <div>
-                {messages.map((msg, index) => (
-                    <p key={index}>{msg.userId}: {msg.text}</p>
-                ))}
-            </div>
-        </div>
+        <AuthContext.Provider value={{ user, token, login, logout }}>
+            {children}
+        </AuthContext.Provider>
     );
 };
 
-export default LiveStream;
+export const useAuth = () => useContext(AuthContext);
