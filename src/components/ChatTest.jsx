@@ -1,11 +1,17 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext'; // Import auth context
 
-const socket = io('http://localhost:5000');
+// ✅ Create socket OUTSIDE the component, only ONCE
+const socket = io('http://localhost:5000', {
+    withCredentials: true,
+    autoConnect: false, // Prevent auto-connection
+});
 
 const ChatTest = () => {
-    const [senderId, setSenderId] = useState('1'); // Replace with logged-in user ID
+    const { user } = useAuth(); // Get logged-in user
+    const senderId = user?.id;
     const [receiverId, setReceiverId] = useState('');
     const [users, setUsers] = useState([]);
     const [message, setMessage] = useState('');
@@ -15,7 +21,7 @@ const ChatTest = () => {
     const [uploading, setUploading] = useState(false);
     const chatEndRef = useRef(null);
 
-    // Fetch all users
+    // 🔥 1. Fetch all users
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -28,31 +34,68 @@ const ChatTest = () => {
         fetchUsers();
     }, []);
 
-    // Listen for new messages
+    // 🔥 2. Connect to socket when senderId is available
     useEffect(() => {
-        socket.on('receiveMessage', (newMessage) => {
-            setMessages((prev) => [...prev, newMessage]);
-        });
+        if (senderId) {
+            if (!socket.connected) {
+                socket.connect();
+                console.log("✅ Connected to socket server:", socket.id);
+            }
 
-        return () => socket.off('receiveMessage');
-    }, []);
+            socket.emit('join', senderId);
+            console.log(`User ${senderId} joined socket server.`);
 
-    // Auto-scroll to latest message
+            socket.on('receiveMessage', (newMessage) => {
+                console.log("📩 New message received:", newMessage);
+                setMessages((prev) => [...prev, newMessage]);
+            });
+
+            socket.on('messageSent', (msg) => {
+                console.log("✅ Message sent acknowledgment:", msg);
+            });
+
+            socket.on('connect_error', (err) => {
+                console.error('❌ Connection error:', err.message);
+            });
+        }
+
+        // Clean up on component unmount / reload
+        return () => {
+            if (socket.connected) {
+                socket.disconnect();
+                console.log('🔌 Socket disconnected!');
+            }
+        };
+    }, [senderId]);
+
+    // 🔥 3. Fetch previous messages when receiver selected
+    useEffect(() => {
+        if (senderId && receiverId) {
+            const fetchMessages = async () => {
+                try {
+                    const response = await axios.get(`http://localhost:5000/api/messages/${senderId}/${receiverId}`);
+                    setMessages(response.data);
+                } catch (error) {
+                    console.error("Error fetching messages:", error);
+                }
+            };
+            fetchMessages();
+        }
+    }, [receiverId, senderId]);
+
+    // 🔥 4. Auto-scroll to latest message
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
 
-    // Select a contact to chat with
     const handleSelectUser = (userId) => {
         if (userId !== senderId) {
             setReceiverId(userId);
-            console.log("Selected Receiver ID:", userId);
         } else {
             alert("You cannot chat with yourself!");
         }
     };
 
-    // Handle file selection
     const handleFileChange = (e) => {
         const selectedFile = e.target.files[0];
         if (selectedFile) {
@@ -61,10 +104,9 @@ const ChatTest = () => {
         }
     };
 
-    // Handle sending messages
     const sendMessage = async () => {
         if (!senderId || !receiverId) {
-            alert("Please select both sender and receiver.");
+            alert("Please select a user to chat with.");
             return;
         }
 
@@ -92,21 +134,22 @@ const ChatTest = () => {
             timestamp: new Date().toISOString(),
         };
 
-        socket.emit('sendMessage', newMessage);
-        setMessages((prev) => [...prev, newMessage]); // Update UI instantly
+        socket.emit('sendMessage', newMessage); // Emit message
+
+        // Immediately show it
+        setMessages((prev) => [...prev, newMessage]);
         setMessage('');
         setFile(null);
         setFilePreview(null);
     };
 
     return (
-        <div className="chat-container">
-            {/* Sidebar for Contacts */}
-            <div className="sidebar">
+        <div className="chat-container" style={{ display: 'flex' }}>
+            <div className="sidebar" style={{ width: "250px", borderRight: "1px solid gray" }}>
                 <h3>Contacts</h3>
                 {users.map((user) => (
-                    <div 
-                        key={user.id} 
+                    <div
+                        key={user.id}
                         className={`user-item ${receiverId === user.id ? 'active' : ''}`}
                         onClick={() => handleSelectUser(user.id)}
                         style={{
@@ -121,68 +164,36 @@ const ChatTest = () => {
                 ))}
             </div>
 
-            {/* Chat Box */}
-            <div className="chat-box">
+            <div className="chat-box" style={{ flexGrow: 1, padding: "10px" }}>
                 {receiverId ? (
                     <>
-                        <div className="messages">
-                            {messages
-                                .filter((msg) => (msg.senderId === senderId && msg.receiverId === receiverId) || 
-                                                 (msg.senderId === receiverId && msg.receiverId === senderId))
-                                .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp))
-                                .map((msg, index) => (
-                                    <div key={index} className={`message ${msg.senderId === senderId ? 'sent' : 'received'}`}>
-                                        <div className="message-content">
-                                            {msg.messageType === 'text' && <p>{msg.message}</p>}
-                                            {msg.messageType === 'media' && msg.mediaUrl && (
-                                                msg.mediaUrl.endsWith('.mp4') ? (
-                                                    <video width="200" controls>
-                                                        <source src={`http://localhost:5000${msg.mediaUrl}`} type="video/mp4" />
-                                                    </video>
-                                                ) : (
-                                                    <img src={`http://localhost:5000${msg.mediaUrl}`} alt="Sent media" width="150" />
-                                                )
-                                            )}
-                                            <span className="timestamp">{new Date(msg.timestamp).toLocaleTimeString()}</span>
-                                        </div>
-                                    </div>
-                                ))}
+                        <div className="messages" style={{ height: "400px", overflowY: "auto", border: "1px solid #ccc", padding: "10px" }}>
+                            {messages.map((msg, index) => (
+                                <div key={index} style={{ marginBottom: "10px", textAlign: msg.senderId === senderId ? 'right' : 'left' }}>
+                                    {msg.messageType === 'text' && <p>{msg.message}</p>}
+                                    {msg.messageType === 'media' && msg.mediaUrl && (
+                                        <img src={`http://localhost:5000${msg.mediaUrl}`} alt="Sent media" width="150" />
+                                    )}
+                                    <small style={{ fontSize: "10px", color: "gray" }}>{new Date(msg.timestamp).toLocaleTimeString()}</small>
+                                </div>
+                            ))}
                             <div ref={chatEndRef}></div>
                         </div>
 
-                        {/* Input Area */}
-                        <div className="input-area">
-                            <input 
-                                type="text" 
-                                value={message} 
-                                onChange={(e) => setMessage(e.target.value)} 
-                                placeholder="Type a message..." 
-                                disabled={uploading}
+                        <div className="input-area" style={{ marginTop: "10px" }}>
+                            <input
+                                type="text"
+                                value={message}
+                                onChange={(e) => setMessage(e.target.value)}
+                                placeholder="Type a message..."
+                                style={{ width: "80%", padding: "5px" }}
                             />
-                            
                             <input type="file" onChange={handleFileChange} />
-                            
-                            {/* File Preview */}
-                            {filePreview && (
-                                <div className="file-preview">
-                                    {file.type.startsWith("image") ? (
-                                        <img src={filePreview} alt="Preview" width="100" />
-                                    ) : (
-                                        <p>Selected File: {file.name}</p>
-                                    )}
-                                </div>
-                            )}
-
-                            {uploading && <span className="spinner">Uploading...</span>}
-                            
-                            <button onClick={sendMessage} disabled={!message && !file}>
-                                Send
-                            </button>
+                            <button onClick={sendMessage} style={{ padding: "5px 10px" }}>Send</button>
+                            {uploading && <p>Uploading...</p>}
                         </div>
                     </>
-                ) : (
-                    <p>Select a user to start chatting</p>
-                )}
+                ) : <p>Select a user to start chatting</p>}
             </div>
         </div>
     );
