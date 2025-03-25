@@ -1,17 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 import axios from 'axios';
-import { useAuth } from '../context/AuthContext'; // Import auth context
+import { useAuth } from '../context/AuthContext';
 
-// ✅ Create socket OUTSIDE the component, only ONCE
+// ✅ Create socket OUTSIDE the component to maintain connection
 const socket = io('http://localhost:5000', {
     withCredentials: true,
-    autoConnect: false, // Prevent auto-connection
+    autoConnect: false, // Prevent auto-connection before user login
 });
 
 const ChatTest = () => {
     const { user } = useAuth(); // Get logged-in user
     const senderId = user?.id;
+    
     const [receiverId, setReceiverId] = useState('');
     const [users, setUsers] = useState([]);
     const [message, setMessage] = useState('');
@@ -21,7 +22,7 @@ const ChatTest = () => {
     const [uploading, setUploading] = useState(false);
     const chatEndRef = useRef(null);
 
-    // 🔥 1. Fetch all users
+    // 🔥 Fetch all users
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -34,33 +35,32 @@ const ChatTest = () => {
         fetchUsers();
     }, []);
 
-    // 🔥 2. Connect to socket when senderId is available
+    // 🔥 Connect to socket when senderId is available
     useEffect(() => {
-        if (senderId) {
-            if (!socket.connected) {
-                socket.connect();
-                console.log("✅ Connected to socket server:", socket.id);
-            }
+        if (!senderId) return;
 
-            socket.emit('join', senderId);
-            console.log(`User ${senderId} joined socket server.`);
-
-            socket.on('receiveMessage', (newMessage) => {
-                console.log("📩 New message received:", newMessage);
-                setMessages((prev) => [...prev, newMessage]);
-            });
-
-            socket.on('messageSent', (msg) => {
-                console.log("✅ Message sent acknowledgment:", msg);
-            });
-
-            socket.on('connect_error', (err) => {
-                console.error('❌ Connection error:', err.message);
-            });
+        if (!socket.connected) {
+            socket.connect();
+            console.log("✅ Connected to socket server:", socket.id);
         }
 
-        // Clean up on component unmount / reload
+        socket.emit('join', senderId);
+        console.log(`User ${senderId} joined socket server.`);
+
+        // 🔹 Listen for incoming messages
+        socket.on('receiveMessage', (newMessage) => {
+            setMessages((prev) => {
+                // ✅ Prevent duplicate messages
+                if (!prev.some(msg => msg.id === newMessage.id)) {
+                    return [...prev, newMessage];
+                }
+                return prev;
+            });
+        });
+
+        // Cleanup on unmount
         return () => {
+            socket.off('receiveMessage');
             if (socket.connected) {
                 socket.disconnect();
                 console.log('🔌 Socket disconnected!');
@@ -68,22 +68,23 @@ const ChatTest = () => {
         };
     }, [senderId]);
 
-    // 🔥 3. Fetch previous messages when receiver selected
+    // 🔥 Fetch previous messages when receiver selected
     useEffect(() => {
-        if (senderId && receiverId) {
-            const fetchMessages = async () => {
-                try {
-                    const response = await axios.get(`http://localhost:5000/api/messages/${senderId}/${receiverId}`);
-                    setMessages(response.data);
-                } catch (error) {
-                    console.error("Error fetching messages:", error);
-                }
-            };
-            fetchMessages();
-        }
+        if (!senderId || !receiverId) return;
+
+        const fetchMessages = async () => {
+            try {
+                const response = await axios.get(`http://localhost:5000/api/messages/${senderId}/${receiverId}`);
+                setMessages(response.data);
+            } catch (error) {
+                console.error("Error fetching messages:", error);
+            }
+        };
+
+        fetchMessages();
     }, [receiverId, senderId]);
 
-    // 🔥 4. Auto-scroll to latest message
+    // 🔥 Auto-scroll to latest message
     useEffect(() => {
         chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
     }, [messages]);
@@ -131,13 +132,14 @@ const ChatTest = () => {
             message: mediaUrl ? '' : message,
             messageType: file ? 'media' : 'text',
             mediaUrl,
-            timestamp: new Date().toISOString(),
+            createdAt: new Date().toISOString(), // ✅ Fixes "Invalid Date" issue
         };
 
-        socket.emit('sendMessage', newMessage); // Emit message
+        socket.emit('sendMessage', newMessage); // Emit message to server
 
-        // Immediately show it
-        setMessages((prev) => [...prev, newMessage]);
+        // ✅ Immediately update UI, preventing duplicate messages
+        setMessages((prev) => [...prev, { ...newMessage, id: Date.now() }]);
+
         setMessage('');
         setFile(null);
         setFilePreview(null);
@@ -174,7 +176,9 @@ const ChatTest = () => {
                                     {msg.messageType === 'media' && msg.mediaUrl && (
                                         <img src={`http://localhost:5000${msg.mediaUrl}`} alt="Sent media" width="150" />
                                     )}
-                                    <small style={{ fontSize: "10px", color: "gray" }}>{new Date(msg.timestamp).toLocaleTimeString()}</small>
+                                    <small style={{ fontSize: "10px", color: "gray" }}>
+                                        {new Date(msg.createdAt).toLocaleString()}
+                                    </small>
                                 </div>
                             ))}
                             <div ref={chatEndRef}></div>
