@@ -3,14 +3,14 @@ import { io } from 'socket.io-client';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 
-// ✅ Create socket OUTSIDE the component to maintain connection
+// ✅ Create socket OUTSIDE the component
 const socket = io('http://localhost:5000', {
     withCredentials: true,
-    autoConnect: false, // Prevent auto-connection before user login
+    autoConnect: false, 
 });
 
 const ChatTest = () => {
-    const { user } = useAuth(); // Get logged-in user
+    const { user, token } = useAuth(); // ✅ Get logged-in user & token
     const senderId = user?.id;
     
     const [receiverId, setReceiverId] = useState('');
@@ -22,18 +22,20 @@ const ChatTest = () => {
     const [uploading, setUploading] = useState(false);
     const chatEndRef = useRef(null);
 
-    // 🔥 Fetch all users
+    // 🔥 Fetch all users with Authorization token
     useEffect(() => {
         const fetchUsers = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/auth/all');
+                const response = await axios.get('http://localhost:5000/api/auth/all', {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
                 setUsers(response.data);
             } catch (error) {
                 console.error("Error fetching users:", error);
             }
         };
-        fetchUsers();
-    }, []);
+        if (token) fetchUsers();
+    }, [token]);
 
     // 🔥 Connect to socket when senderId is available
     useEffect(() => {
@@ -50,7 +52,6 @@ const ChatTest = () => {
         // 🔹 Listen for incoming messages
         socket.on('receiveMessage', (newMessage) => {
             setMessages((prev) => {
-                // ✅ Prevent duplicate messages
                 if (!prev.some(msg => msg.id === newMessage.id)) {
                     return [...prev, newMessage];
                 }
@@ -58,7 +59,6 @@ const ChatTest = () => {
             });
         });
 
-        // Cleanup on unmount
         return () => {
             socket.off('receiveMessage');
             if (socket.connected) {
@@ -70,11 +70,13 @@ const ChatTest = () => {
 
     // 🔥 Fetch previous messages when receiver selected
     useEffect(() => {
-        if (!senderId || !receiverId) return;
+        if (!senderId || !receiverId || !token) return;
 
         const fetchMessages = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/messages/${senderId}/${receiverId}`);
+                const response = await axios.get(`http://localhost:5000/api/messages/${senderId}/${receiverId}`, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
                 setMessages(response.data);
             } catch (error) {
                 console.error("Error fetching messages:", error);
@@ -82,7 +84,7 @@ const ChatTest = () => {
         };
 
         fetchMessages();
-    }, [receiverId, senderId]);
+    }, [receiverId, senderId, token]);
 
     // 🔥 Auto-scroll to latest message
     useEffect(() => {
@@ -117,7 +119,9 @@ const ChatTest = () => {
             const formData = new FormData();
             formData.append('file', file);
             try {
-                const response = await axios.post('http://localhost:5000/api/upload', formData);
+                const response = await axios.post('http://localhost:5000/api/upload', formData, {
+                    headers: { Authorization: `Bearer ${token}` }
+                });
                 mediaUrl = response.data.fileUrl;
             } catch (error) {
                 console.error("Error uploading file:", error);
@@ -132,12 +136,11 @@ const ChatTest = () => {
             message: mediaUrl ? '' : message,
             messageType: file ? 'media' : 'text',
             mediaUrl,
-            createdAt: new Date().toISOString(), // ✅ Fixes "Invalid Date" issue
+            createdAt: new Date().toISOString(),
         };
 
-        socket.emit('sendMessage', newMessage); // Emit message to server
+        socket.emit('sendMessage', newMessage); 
 
-        // ✅ Immediately update UI, preventing duplicate messages
         setMessages((prev) => [...prev, { ...newMessage, id: Date.now() }]);
 
         setMessage('');
