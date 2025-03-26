@@ -584,4 +584,40 @@
     .video-container {
         min-height: 250px;
     }
+    /* Add to existing styles */
+.stream-status {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+.stream-duration, .viewer-count, .like-count {
+    background: rgba(0, 0, 0, 0.3);
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 0.9rem;
+}
+
+.comments-box {
+    max-height: 300px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+}
+
+.comment-user {
+    font-weight: bold;
+    margin-right: 5px;
+    color: #4a8eff;
+}
+
+.like-btn:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Add smooth transitions */
+button, input {
+    transition: all 0.2s ease;
+}
 }
