@@ -23,7 +23,7 @@ const Sidebar = () => {
             <ul>
                 <li><a href="#"><FaHome /><span>Home</span></a></li>
                 <li><a href="/live"><FaBroadcastTower /><span>Live Now</span></a></li>
-                <li><a href="#"><FaStar /><span>Featured Products</span></a></li>
+                <li><a href="/postfeed"><FaStar /><span>Featured Products</span></a></li>
                 <li><a href="#"><FaSearch /><span>Search</span></a></li>
                 <li><a href="#"><FaFilter /><span>Filter</span></a></li>
                 <li><a href="#"><FaThList /><span>Categories</span></a></li>

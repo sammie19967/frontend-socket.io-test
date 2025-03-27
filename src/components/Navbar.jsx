@@ -17,14 +17,10 @@ const Navbar = () => {
             </Link>
 
             {/* Profile Section */}
-            <div className="navbar-profile">
+            <Link to="/profile" className="navbar-profile">
                 <FaUserCircle className="navbar-profile-icon" />
-                <div className="navbar-dropdown">
-                    <Link to="/profile">Profile</Link>
-                    <Link to="/settings">Settings</Link>
-                    <Link to="/logout">Logout</Link>
-                </div>
-            </div>
+                
+            </Link>
         </nav>
     );
 };

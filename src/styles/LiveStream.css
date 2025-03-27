@@ -1,250 +1,101 @@
-/* Main container */
-.live-stream-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  /* Layout */
-  .stream-layout {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  @media (min-width: 992px) {
-    .stream-layout {
-      flex-direction: row;
-    }
-  }
-  
-  /* Video section */
-  .video-section {
-    flex: 2;
-    background-color: #000;
-    border-radius: 8px;
-    position: relative;
-    aspect-ratio: 16/9;
-  }
-  
-  .video-placeholder {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    font-size: 1.2rem;
-  }
-  
-  /* Video controls */
-  .stream-controls {
-    margin-top: 15px;
-    display: flex;
-    gap: 10px;
-  }
-  
-  .stream-controls button {
-    padding: 8px 16px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-weight: 500;
-  }
-  
-  .start-stream-btn {
-    background-color: #e53e3e;
-    color: white;
-  }
-  
-  .start-stream-btn:hover {
-    background-color: #c53030;
-  }
-  
-  .stop-stream-btn {
-    background-color: #4a5568;
-    color: white;
-  }
-  
-  .stop-stream-btn:hover {
-    background-color: #2d3748;
-  }
-  
-  .stream-status {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.7);
-    padding: 5px 10px;
-    border-radius: 20px;
-    position: absolute;
-    bottom: 10px;
-    left: 10px;
-    font-size: 0.9rem;
-  }
-  
-  .live-indicator {
-    color: #f56565;
-  }
-  
-  /* Sidebar */
-  .sidebar {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-  }
-  
-  /* Stream list */
-  .streams-section {
-    background-color: white;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-  }
-  
-  .section-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 15px;
-  }
-  
-  .stream-list {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-  
-  .stream-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-  }
-  
-  .join-stream-btn {
-    padding: 5px 10px;
-    background-color: #4299e1;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .join-stream-btn:hover {
-    background-color: #3182ce;
-  }
-  
-  /* Chat section */
-  .chat-section {
-    background-color: white;
-    border-radius: 8px;
-    padding: 15px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    flex-grow: 1;
-  }
-  
-  .chat-title {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin-bottom: 15px;
-  }
-  
-  .comments-box {
-    flex-grow: 1;
-    overflow-y: auto;
-    margin-bottom: 15px;
-    max-height: 300px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .comment {
-    word-break: break-word;
-  }
-  
-  .comment-user {
-    font-weight: bold;
-    color: #2b6cb0;
-  }
-  
-  .comment-input-area {
-    display: flex;
-    gap: 8px;
-  }
-  
-  .comment-input {
-    flex-grow: 1;
-    padding: 8px 12px;
-    border: 1px solid #e2e8f0;
-    border-radius: 4px;
-  }
-  
-  .send-comment-btn {
-    padding: 8px 12px;
-    background-color: #4299e1;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .send-comment-btn:hover {
-    background-color: #3182ce;
-  }
-  
-  .send-comment-btn:disabled {
-    background-color: #a0aec0;
-    cursor: not-allowed;
-  }
-  
-  .like-btn {
-    padding: 8px 12px;
-    background-color: #ed64a6;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  
-  .like-btn:hover {
-    background-color: #d53f8c;
-  }
-  
-  /* Error message */
-  .error-message {
-    padding: 10px 15px;
-    background-color: #fff5f5;
-    border: 1px solid #fed7d7;
-    border-radius: 4px;
-    color: #e53e3e;
-    margin-bottom: 15px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-  
-  .retry-button {
-    padding: 5px 10px;
-    background-color: #e53e3e;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .retry-button:hover {
-    background-color: #c53030;
-  }
+.live-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+.streams-list {
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 20px;
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background: #f9f9f9;
+}
+
+.stream-item {
+  padding: 10px;
+  margin: 5px 0;
+  background: #eee;
+  cursor: pointer;
+  border-radius: 5px;
+  text-align: center;
+  transition: background 0.3s;
+}
+
+.stream-item:hover {
+  background: #ddd;
+}
+
+.stream-controls {
+  margin-bottom: 20px;
+}
+
+.stream-controls button {
+  padding: 10px 15px;
+  border: none;
+  background: #007bff;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.stream-controls button:hover {
+  background: #0056b3;
+}
+
+.live-screen {
+  width: 100%;
+  max-width: 800px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background: white;
+  text-align: center;
+}
+
+video {
+  width: 100%;
+  max-width: 600px;
+  border-radius: 5px;
+}
+
+.comments {
+  margin-top: 20px;
+  text-align: left;
+  max-width: 600px;
+  width: 100%;
+}
+
+.comments p {
+  background: #f1f1f1;
+  padding: 8px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+}
+
+input {
+  padding: 10px;
+  width: 80%;
+  margin-top: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  padding: 10px 15px;
+  margin-left: 10px;
+  border: none;
+  background: #28a745;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #218838;
+}
