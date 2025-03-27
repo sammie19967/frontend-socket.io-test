@@ -6,7 +6,7 @@ import Dashboard from './pages/Dashboard';
 import ProtectedRoute from './components/ProtectedRoute';
 import Sell from './pages/Sell';
 import Profile from './pages/Profile';
-import LiveStream from './pages/Live';
+import LiveStream from './pages/LiveStream';
 
 function App() {
     return (
