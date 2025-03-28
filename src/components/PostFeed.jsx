@@ -19,7 +19,9 @@ export default function PostFeed() {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await axios.get("http://localhost:5000/api/posts", { withCredentials: true });
+                const response = await axios.get("http://localhost:5000/api/posts", { 
+                    withCredentials: true 
+                });
                 
                 if (Array.isArray(response.data.posts)) {
                     setPosts(response.data.posts);
@@ -75,17 +77,17 @@ export default function PostFeed() {
                     const formattedDate = new Date(post.createdAt).toLocaleString();
                     const isLiked = likedPosts.has(post.id);
                     const mediaUrls = post.mediaUrl ? post.mediaUrl.split(",") : [];
+                    const mediaCount = mediaUrls.length;
+                    const usernameInitial = post.User?.username?.charAt(0).toUpperCase() || 'U';
 
                     return (
                         <div key={post.id} className="post-card-v2">
                             {/* User Info */}
                             <div className="user-info-v2">
                                 <Link to={`/profile/${post.User?.id}`} className="profile-link-v2">
-                                    <img
-                                        src={post.User?.profilePicture || "https://via.placeholder.com/40"}
-                                        alt="Profile"
-                                        className="profile-icon-v2"
-                                    />
+                                    <div className="profile-icon-v2">
+                                        {usernameInitial}
+                                    </div>
                                     <span className="username-v2">{post.User?.username || "Unknown User"}</span>
                                 </Link>
                             </div>
@@ -94,8 +96,11 @@ export default function PostFeed() {
                             <p className="caption-v2">{post.caption}</p>
 
                             {/* Media Container */}
-                            {mediaUrls.length > 0 && (
-                                <div className="media-container">
+                            {mediaCount > 0 && (
+                                <div 
+                                    className="media-container" 
+                                    data-count={mediaCount > 4 ? '>4' : mediaCount.toString()}
+                                >
                                     {mediaUrls.map((url, index) => {
                                         const fullUrl = `http://localhost:5000${url.trim()}`;
                                         const isVideo = url.endsWith(".mp4");
@@ -103,8 +108,15 @@ export default function PostFeed() {
                                         return (
                                             <div 
                                                 key={index} 
-                                                className={`media-wrapper ${mediaUrls.length > 1 ? 'multi-media' : ''}`}
+                                                className={`media-wrapper ${mediaCount > 1 ? 'multi-media' : ''}`}
                                             >
+                                                {/* Show count badge on first media item if multiple */}
+                                                {mediaCount > 1 && index === 0 && (
+                                                    <div className="media-count-badge">
+                                                        +{mediaCount - 1}
+                                                    </div>
+                                                )}
+                                                
                                                 {isVideo ? (
                                                     <div className="video-wrapper">
                                                         <video
@@ -149,7 +161,10 @@ export default function PostFeed() {
 
                             {/* Action Buttons */}
                             <div className="actions-v2">
-                                <button className={isLiked ? "liked" : ""} onClick={() => handleLike(post.id)}>
+                                <button 
+                                    className={isLiked ? "liked" : ""} 
+                                    onClick={() => handleLike(post.id)}
+                                >
                                     <FaThumbsUp /> Like ({post.likes?.length || 0})
                                 </button>
                                 <button>

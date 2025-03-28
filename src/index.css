@@ -34,3 +34,10 @@
     --border-light: #333;
     --border-dark: #222;
   }
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', sans-serif;
+    background-color: var(--primary-dark);
+    color: var(--text-primary);
+  }
