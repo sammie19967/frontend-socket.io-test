@@ -12,6 +12,7 @@ import Sidebar from "./components/Sidebar";
 import NotFound from "./pages/NotFound";
 import './App.css'; 
 import { useState } from "react";
+import ChatTest from "./components/ChatTest";
 
 function AppLayout({ children, isSidebarCollapsed, handleSidebarToggle }) {
     return (
@@ -51,6 +52,7 @@ function AppContent() {
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/profile/:id" element={<ProfilePage />} />
                 <Route path="/postfeed" element={<PostFeed />} />
+                <Route path="/message" element={<ChatTest />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </AppLayout>

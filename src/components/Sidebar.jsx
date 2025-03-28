@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import '../styles/Sidebar.css';
 import { 
-    FaHome, FaSearch, FaSort, FaFilter, FaThList, FaStar, 
+    FaHome, FaRegCommentDots, FaSort, FaFilter, FaThList, FaStar, 
     FaBroadcastTower, FaBars, FaTimes 
 } from 'react-icons/fa'; 
 
@@ -26,7 +26,7 @@ const Sidebar = ({ onToggle }) => {
                 <li><a href="/"><FaHome /><span>Home</span></a></li>
                 <li><a href="/live"><FaBroadcastTower /><span>Live Now</span></a></li>
                 <li><a href="/postfeed"><FaStar /><span>Featured Products</span></a></li>
-                <li><a href="/search"><FaSearch /><span>Search</span></a></li>
+                <li><a href="/message"><FaRegCommentDots /><span>Message</span></a></li>
                 <li><a href="/filter"><FaFilter /><span>Filter</span></a></li>
                 <li><a href="/categories"><FaThList /><span>Categories</span></a></li>
                 <li><a href="/sort"><FaSort /><span>Sort</span></a></li>
