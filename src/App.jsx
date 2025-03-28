@@ -13,6 +13,7 @@ import NotFound from "./pages/NotFound";
 import './App.css'; 
 import { useState } from "react";
 import ChatTest from "./components/ChatTest";
+import LiveStreamApp from "./pages/Livestream";
 
 function AppLayout({ children, isSidebarCollapsed, handleSidebarToggle }) {
     return (
@@ -48,11 +49,12 @@ function AppContent() {
         >
             <Routes>
                 <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                <Route path="/sell" element={<Sell />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/profile/:id" element={<ProfilePage />} />
-                <Route path="/postfeed" element={<PostFeed />} />
-                <Route path="/message" element={<ChatTest />} />
+                <Route path="/sell" element={<ProtectedRoute><Sell /></ProtectedRoute>} />
+                <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+                <Route path="/profile/:id" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
+                <Route path="/postfeed" element={<ProtectedRoute><PostFeed /></ProtectedRoute>} />
+                <Route path="/message" element={<ProtectedRoute><ChatTest /></ProtectedRoute>} />
+                <Route path="/live" element={<ProtectedRoute><LiveStreamApp /></ProtectedRoute>} />     
                 <Route path="*" element={<NotFound />} />
             </Routes>
         </AppLayout>
