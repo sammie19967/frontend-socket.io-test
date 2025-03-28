@@ -5,11 +5,13 @@ import {
     FaBroadcastTower, FaBars, FaTimes 
 } from 'react-icons/fa'; 
 
-const Sidebar = () => {
+const Sidebar = ({ onToggle }) => {
     const [isCollapsed, setIsCollapsed] = useState(false);
 
     const toggleSidebar = () => {
-        setIsCollapsed(!isCollapsed);
+        const newState = !isCollapsed;
+        setIsCollapsed(newState);
+        onToggle(newState); // Notify parent about the toggle state
     };
 
     return (
@@ -25,10 +27,9 @@ const Sidebar = () => {
                 <li><a href="/live"><FaBroadcastTower /><span>Live Now</span></a></li>
                 <li><a href="/postfeed"><FaStar /><span>Featured Products</span></a></li>
                 <li><a href="/search"><FaSearch /><span>Search</span></a></li>
-                <li><a href="filter"><FaFilter /><span>Filter</span></a></li>
-                <li><a href="/sort"><FaThList /><span>Categories</span></a></li>
+                <li><a href="/filter"><FaFilter /><span>Filter</span></a></li>
+                <li><a href="/categories"><FaThList /><span>Categories</span></a></li>
                 <li><a href="/sort"><FaSort /><span>Sort</span></a></li>
-                
             </ul>
         </aside>
     );

@@ -1,32 +1,26 @@
-/* Global Theme Variables */
-:root {
-    --sidebar-bg: #1e1e1e;
-    --sidebar-border: #333;
-    --sidebar-text: #ffffff;
-    --sidebar-hover: #333;
-    --icon-color: #bb86fc;
-    --sidebar-shadow: rgba(0, 0, 0, 0.3);
-
-}
-:root {
-    /* Light Mode Colors */
-    --primary-color: #2563eb; /* Vibrant blue */
-    --background-color: #ffffff; /* White */
-    --text-color: #1e293b; /* Dark gray */
-    --accent-color: #e2e8f0; /* Light gray for borders and shadows */
-    --secondary-color: #94a3b8; /* Gray for secondary text */
-    --success-color: #10b981; /* Green for success messages */
-    --error-color: #ef4444; /* Red for errors */
+/* Default layout */
+.app-layout {
+    display: flex;
+    transition: all 0.3s ease;
 }
 
-[data-theme="dark"] {
-    /* Dark Mode Colors */
-    --primary-color: #1d4ed8; /* Slightly muted blue */
-    --background-color: #1e293b; /* Dark gray */
-    --text-color: #f8fafc; /* Light gray */
-    --accent-color: #334155; /* Dark gray for borders and shadows */
-    --secondary-color: #64748b; /* Gray for secondary text */
-    --success-color: #059669; /* Darker green */
-    --error-color: #dc2626; /* Darker red */
+.sidebar {
+    width: 250px;
+    transition: width 0.3s ease;
 }
 
+.main-content {
+    flex: 1;
+    padding: 20px;
+    transition: margin-left 0.3s ease;
+    margin-left: 250px; /* Default margin when sidebar is expanded */
+}
+
+/* Collapsed sidebar */
+.sidebar.collapsed {
+    width: 80px;
+}
+
+.app-layout.sidebar-collapsed .main-content {
+    margin-left: 80px; /* Adjust margin when sidebar is collapsed */
+}
