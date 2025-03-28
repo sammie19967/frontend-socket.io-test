@@ -4,7 +4,7 @@
     --sidebar-border: #333;
     --sidebar-text: #ffffff;
     --sidebar-hover: #333;
-    --icon-color: #bb86fc;
+    --icon-color: #bb86fc; /* Icon color */
     --sidebar-shadow: rgba(0, 0, 0, 0.3);
 }
 
@@ -72,8 +72,8 @@
 .sidebar ul li a svg {
     margin-right: 10px;
     font-size: 1.2rem;
-    color: var(--icon-color);
-    transition: margin-right 0.3s ease;
+    color: var(--icon-color); /* Use the icon color variable */
+    transition: margin-right 0.3s ease, color 0.3s ease;
 }
 
 /* Labels */
