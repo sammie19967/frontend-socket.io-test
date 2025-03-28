@@ -1,0 +1,29 @@
+/* Define Global Theme Variables */
+:root {
+    --primary-bg: #1e1e1e; /* Background color for primary elements */
+    --primary-text: #ffffff; /* Text color for primary elements */
+    --secondary-bg: #333333; /* Background color for secondary elements */
+    --secondary-text: #bbbbbb; /* Text color for secondary elements */
+    --accent-color: #bb86fc; /* Accent color for highlights and icons */
+    --hover-bg: #444444; /* Background color for hover states */
+    --border-color: #333333; /* Border color */
+    --shadow-color: rgba(0, 0, 0, 0.3); /* Shadow color */
+}
+
+/* Global Styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: var(--primary-bg);
+    color: var(--primary-text);
+}
+
+a {
+    color: var(--accent-color);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+a:hover {
+    color: var(--primary-text);
+}

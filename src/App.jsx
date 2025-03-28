@@ -49,6 +49,7 @@ function AppContent() {
                 <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/sell" element={<Sell />} />
                 <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/profile/:id" element={<ProfilePage />} />
                 <Route path="/postfeed" element={<PostFeed />} />
                 <Route path="*" element={<NotFound />} />
             </Routes>
