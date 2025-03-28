@@ -1,6 +1,6 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import axios from "axios";
-import { FaThumbsUp, FaComment, FaStar } from "react-icons/fa";
+import { FaThumbsUp, FaComment, FaStar, FaPlay, FaPause } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
@@ -14,14 +14,13 @@ export default function PostFeed() {
     const [lightboxOpen, setLightboxOpen] = useState(false);
     const [lightboxIndex, setLightboxIndex] = useState(0);
     const [lightboxSlides, setLightboxSlides] = useState([]);
+    const videoRefs = useRef({});
 
     useEffect(() => {
         const fetchPosts = async () => {
             try {
                 const response = await axios.get("http://localhost:5000/api/posts", { withCredentials: true });
-
-                console.log("API Response:", response.data);
-
+                
                 if (Array.isArray(response.data.posts)) {
                     setPosts(response.data.posts);
                 } else {
@@ -52,16 +51,27 @@ export default function PostFeed() {
         setLightboxOpen(true);
     };
 
+    const toggleVideoPlayback = (postId, mediaIndex) => {
+        const videoKey = `${postId}-${mediaIndex}`;
+        const video = videoRefs.current[videoKey];
+        
+        if (video) {
+            if (video.paused) {
+                video.play();
+            } else {
+                video.pause();
+            }
+        }
+    };
+
     if (loading) return <p className="loading-v2">Loading posts...</p>;
     if (error) return <p className="error-v2">{error}</p>;
 
     return (
         <div className="post-feed-container-v2">
             <h2>Posts</h2>
-            {posts.length === 0 ? (
-                <p>No posts available.</p>
-            ) : (
-                posts.map((post) => {
+            <div className="posts-grid">
+                {posts.map((post) => {
                     const formattedDate = new Date(post.createdAt).toLocaleString();
                     const isLiked = likedPosts.has(post.id);
                     const mediaUrls = post.mediaUrl ? post.mediaUrl.split(",") : [];
@@ -83,17 +93,53 @@ export default function PostFeed() {
                             <p className="timestamp-v2">{formattedDate}</p>
                             <p className="caption-v2">{post.caption}</p>
 
-                            {/* Media Grid */}
+                            {/* Media Container */}
                             {mediaUrls.length > 0 && (
-                                <div className="media-grid-v2">
+                                <div className="media-container">
                                     {mediaUrls.map((url, index) => {
                                         const fullUrl = `http://localhost:5000${url.trim()}`;
+                                        const isVideo = url.endsWith(".mp4");
+                                        
                                         return (
-                                            <div key={index} className="media-item-v2" onClick={() => openLightbox(mediaUrls, index)}>
-                                                {url.endsWith(".mp4") ? (
-                                                    <video src={fullUrl} muted />
+                                            <div 
+                                                key={index} 
+                                                className={`media-wrapper ${mediaUrls.length > 1 ? 'multi-media' : ''}`}
+                                            >
+                                                {isVideo ? (
+                                                    <div className="video-wrapper">
+                                                        <video
+                                                            ref={el => videoRefs.current[`${post.id}-${index}`] = el}
+                                                            src={fullUrl}
+                                                            muted
+                                                            loop
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                toggleVideoPlayback(post.id, index);
+                                                            }}
+                                                            onPlay={(e) => {
+                                                                e.target.setAttribute('playing', 'true');
+                                                            }}
+                                                            onPause={(e) => {
+                                                                e.target.removeAttribute('playing');
+                                                            }}
+                                                        />
+                                                        <button 
+                                                            className="video-control"
+                                                            onClick={(e) => {
+                                                                e.stopPropagation();
+                                                                toggleVideoPlayback(post.id, index);
+                                                            }}
+                                                        >
+                                                            <FaPlay className="play-icon" />
+                                                            <FaPause className="pause-icon" />
+                                                        </button>
+                                                    </div>
                                                 ) : (
-                                                    <img src={fullUrl} alt="Post media" />
+                                                    <img 
+                                                        src={fullUrl} 
+                                                        alt="Post media" 
+                                                        onClick={() => openLightbox(mediaUrls, index)}
+                                                    />
                                                 )}
                                             </div>
                                         );
@@ -115,12 +161,17 @@ export default function PostFeed() {
                             </div>
                         </div>
                     );
-                })
-            )}
+                })}
+            </div>
 
             {/* Lightbox */}
             {lightboxOpen && (
-                <Lightbox slides={lightboxSlides} index={lightboxIndex} open={lightboxOpen} close={() => setLightboxOpen(false)} />
+                <Lightbox 
+                    slides={lightboxSlides} 
+                    index={lightboxIndex} 
+                    open={lightboxOpen} 
+                    close={() => setLightboxOpen(false)} 
+                />
             )}
         </div>
     );
