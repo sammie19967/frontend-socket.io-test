@@ -10,7 +10,7 @@ import PostFeed from "./components/PostFeed";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
 import NotFound from "./pages/NotFound";
-import './App.css'; // Ensure you have styles for layout adjustments
+import './App.css'; 
 import { useState } from "react";
 
 function AppLayout({ children, isSidebarCollapsed, handleSidebarToggle }) {
@@ -25,7 +25,7 @@ function AppLayout({ children, isSidebarCollapsed, handleSidebarToggle }) {
     );
 }
 
-function App() {
+function AppContent() {
     const [isSidebarCollapsed, setIsSidebarCollapsed] = useState(false);
 
     const handleSidebarToggle = (isCollapsed) => {
@@ -35,28 +35,32 @@ function App() {
     const location = useLocation();
     const isAuthPage = location.pathname === "/signup" || location.pathname === "/login";
 
+    return isAuthPage ? (
+        <Routes>
+            <Route path="/signup" element={<Signup />} />
+            <Route path="/login" element={<Login />} />
+        </Routes>
+    ) : (
+        <AppLayout
+            isSidebarCollapsed={isSidebarCollapsed}
+            handleSidebarToggle={handleSidebarToggle}
+        >
+            <Routes>
+                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/sell" element={<Sell />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/postfeed" element={<PostFeed />} />
+                <Route path="*" element={<NotFound />} />
+            </Routes>
+        </AppLayout>
+    );
+}
+
+function App() {
     return (
         <AuthProvider>
             <Router>
-                {isAuthPage ? (
-                    <Routes>
-                        <Route path="/signup" element={<Signup />} />
-                        <Route path="/login" element={<Login />} />
-                    </Routes>
-                ) : (
-                    <AppLayout
-                        isSidebarCollapsed={isSidebarCollapsed}
-                        handleSidebarToggle={handleSidebarToggle}
-                    >
-                        <Routes>
-                            <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
-                            <Route path="/sell" element={<Sell />} />
-                            <Route path="/profile" element={<ProfilePage />} />
-                            <Route path="/postfeed" element={<PostFeed />} />
-                            <Route path="*" element={<NotFound />} />
-                        </Routes>
-                    </AppLayout>
-                )}
+                <AppContent />
             </Router>
         </AuthProvider>
     );
