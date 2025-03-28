@@ -46,7 +46,7 @@ function AppContent() {
             handleSidebarToggle={handleSidebarToggle}
         >
             <Routes>
-                <Route path="/dashboard" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
+                <Route path="/" element={<ProtectedRoute><Dashboard /></ProtectedRoute>} />
                 <Route path="/sell" element={<Sell />} />
                 <Route path="/profile" element={<ProfilePage />} />
                 <Route path="/profile/:id" element={<ProfilePage />} />

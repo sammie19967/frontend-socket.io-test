@@ -11,18 +11,15 @@ const Dashboard = () => {
     const { user } = useAuth(); // Get user from AuthContext
 
     return (
-        <div className="dashboard-container">
-            <Navbar /> {/* Top navbar */}
-            <div className="dashboard-layout">
-                <Sidebar /> {/* Sidebar positioned below the navbar */}
-                <div className="dashboard-content">
+        
+            
+        <div className="app-container">
                     <h2 className="welcome-message">
                         Hello, <span>{user?.username || "Guest"}</span> welcome to Jumanji!
                     </h2>
                     <ChatTest/>
                 </div>
-            </div>
-        </div>
+          
     );
 };
 

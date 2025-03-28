@@ -1,29 +1,36 @@
-/* Define Global Theme Variables */
 :root {
-    --primary-bg: #1e1e1e; /* Background color for primary elements */
-    --primary-text: #ffffff; /* Text color for primary elements */
-    --secondary-bg: #333333; /* Background color for secondary elements */
-    --secondary-text: #bbbbbb; /* Text color for secondary elements */
-    --accent-color: #bb86fc; /* Accent color for highlights and icons */
-    --hover-bg: #444444; /* Background color for hover states */
-    --border-color: #333333; /* Border color */
-    --shadow-color: rgba(0, 0, 0, 0.3); /* Shadow color */
-}
-
-/* Global Styles */
-body {
-    margin: 0;
-    font-family: Arial, sans-serif;
-    background-color: var(--primary-bg);
-    color: var(--primary-text);
-}
-
-a {
-    color: var(--accent-color);
-    text-decoration: none;
-    transition: color 0.3s ease;
-}
-
-a:hover {
-    color: var(--primary-text);
-}
+    /* Primary Colors */
+    --primary-dark: #121212;
+    --primary-darker: #1e1e1e;
+    
+    /* Accent/Primary Purple */
+    --primary-purple: #bb86fc;
+    --primary-purple-dark: #9b5fc9;
+    
+    /* Secondary Colors */
+    --secondary-teal: #03dac6;
+    --secondary-teal-dark: #018786;
+    
+    --secondary-pink: #ff7597;
+    --secondary-pink-dark: #d45d7d;
+    
+    /* Status Colors */
+    --success: #2ecc71;
+    --error: #e74c3c;
+    --warning: #f39c12;
+    --info: #3498db;
+    
+    /* Text Colors */
+    --text-primary: #ffffff;
+    --text-secondary: #e0e0e0;
+    --text-disabled: #a0a0a0;
+    
+    /* Background Shades */
+    --bg-surface: #1e1e1e;
+    --bg-elevated: #2d2d2d;
+    --bg-hover: #333333;
+    
+    /* Borders */
+    --border-light: #333;
+    --border-dark: #222;
+  }
