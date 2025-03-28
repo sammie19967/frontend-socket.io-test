@@ -1,18 +1,51 @@
-/* Default layout */
+/* Ensure the app container takes up the full viewport */
+.app-container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+/* Navbar styling */
+.navbar {
+    height: 60px; /* Adjust as needed */
+    width: 100%;
+    background-color: #333; /* Example background color */
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Layout for sidebar and main content */
 .app-layout {
     display: flex;
+    flex: 1;
+    overflow: hidden;
     transition: all 0.3s ease;
 }
 
+/* Sidebar styling */
 .sidebar {
     width: 250px;
+    background-color: #222; /* Example background color */
+    color: white;
     transition: width 0.3s ease;
+    overflow-y: auto;
 }
 
+.sidebar-collapsed .sidebar {
+    width: 80px;
+}
+
+/* Main content styling */
 .main-content {
     flex: 1;
     padding: 20px;
-    transition: margin-left 0.3s ease;
+    overflow-y: auto;
+    margin-top: 60px; /* Ensure content starts below the navbar */
+    background-color: #f9f9f9; /* Example background color */
     margin-left: 250px; /* Default margin when sidebar is expanded */
 }
 
