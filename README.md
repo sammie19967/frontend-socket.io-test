@@ -54,5 +54,7 @@ Mysql DB - Database
 
 NOTE: This project can have a few bugs and incomplete sections that am currently working on, I was learning most concepts while developing so its not very perfect
 
-Finally I used different repos for frontend and backend setups please visit this link to access the backend 
+Finally I used different repos for frontend and backend setups please visit this link to access the backend https://github.com/sammie19967/live-ecommerce-backend.git
+
+I believe with Support and collaboration we can shape the future of ecommerce platforms . THANKS
 
