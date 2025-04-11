@@ -58,3 +58,17 @@ Finally I used different repos for frontend and backend setups please visit this
 
 I believe with Support and collaboration we can shape the future of ecommerce platforms . THANKS
 
+
+HOW TO RUN
+1. CLONE THE FRONTEND https://github.com/sammie19967/frontend-socket.io-test.git
+2. CLONE THE BACKEND  https://github.com/sammie19967/live-ecommerce-backend.git
+3. EXTRACT THEM 
+4. OPEN THE FRONTEND IN THE TERMINAL
+5. RUN NPM INSTALL
+6. CD INTO THE BACKEND
+7. RUN NPM INSTALL
+8. CREATE A .ENV FILE FOR PORT NUMBER AND SQL CONFIGS
+9. RUM NPM RUN DEV TO START THE SERVER
+10. START THE FRONTEND USING NPM RUN DEV
+11. SIGN UP, LOGIN TO ACCESS FEATURES
+
